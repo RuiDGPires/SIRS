@@ -51,6 +51,8 @@ def get_user(name):
 @app.errorhandler(Exception)
 @app.route("/default_callback/", methods=["GET", "POST"])
 def default_callback(e = None):
+    if e is not None:
+        return str(e), 400
     return "default_callback", 200
 
 app.register_error_handler(Exception, default_callback)
