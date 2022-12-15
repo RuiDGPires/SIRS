@@ -43,7 +43,7 @@ def get_user(name):
     try:
         res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (name,)) 
     except Exception as e:
-        log(e)
+        app.logger.warning(str(e))
         "Nok", 400
 
     return str(res), 200
