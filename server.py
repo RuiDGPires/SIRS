@@ -1,6 +1,6 @@
 #!/bin/env python3
 from flask import Flask
-from flask import render_template, request, redirect, url_for, abort
+from flask import request, redirect, url_for, abort
 import psycopg2
 import psycopg2.extras
 
@@ -33,7 +33,7 @@ def commit(cursor):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return "ok", 200
 
 @app.route("/users/<name>", methods=["GET"])
 def get_user(name):
@@ -47,19 +47,7 @@ def get_user(name):
 @app.errorhandler(Exception)
 @app.route("/default_callback/", methods=["GET", "POST"])
 def default_callback(e = None):
-    if e is None:
-        return '''<html>
-                <title>BD Project - Success</title>
-                <h2>Operation was successful</h2>
-                <button onclick="history.back()">Back</button>
-                </html>'''
-    else:
-        return f'''<html>
-                <title>BD Project - Error</title>
-                <h2>An error occurred while executing operation</h2>
-                <h3>{e}</h3>
-                <button onclick="history.back()">Back</button>
-                </html>'''
+    return "default_callback", 200
 
 app.register_error_handler(Exception, default_callback)
 app.run(host="0.0.0.0")
