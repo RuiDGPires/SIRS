@@ -62,4 +62,4 @@ def default_callback(e = None):
                 </html>'''
 
 app.register_error_handler(Exception, default_callback)
-CGIHandler().run(app)
+app.run(host="0.0.0.0")
