@@ -10,6 +10,6 @@ create table users (
 );
 
 create table employees (
-    name numeric(13, 0),
+    name varchar(255),
     foreign key(name) references users(name)
 );
