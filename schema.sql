@@ -11,5 +11,5 @@ create table users (
 
 create table employees (
     name numeric(13, 0),
-    foreign key(name) references users(nome)
+    foreign key(name) references users(name)
 );
