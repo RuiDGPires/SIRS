@@ -40,7 +40,7 @@ def get_user(name):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', name) 
+    res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (name,)) 
 
     return str(res), 200
 
