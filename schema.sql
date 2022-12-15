@@ -6,7 +6,7 @@ create table users (
     name varchar(255),
     pass varchar(255),
 
-    primary key(nome)
+    primary key(name)
 );
 
 create table employees (
