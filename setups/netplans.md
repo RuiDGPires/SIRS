@@ -52,6 +52,42 @@ network:
               - 192.168.2.254/24
 ```
 
+## Consumer Application
+
+(Cloned Application Server's VM)
+
+```
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:
+          addresses:
+              - 192.168.1.2/24
+          routes:
+              - to: 0.0.0.0/0
+                via: 192.168.1.254
+```
+
+## Employees Application
+
+(Cloned Application Server's VM)
+
+```
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:
+          addresses:
+              - 192.168.1.3/24
+          routes:
+              - to: 0.0.0.0/0
+                via: 192.168.1.254
+```
+
 ## Utils
 
 `sudo netplan try`

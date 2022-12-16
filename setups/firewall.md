@@ -1,6 +1,6 @@
 # Setup
 
-Descarregar o ficheiro .fwb do mail (Assunto: Fireball)
+Descarregar o ficheiro .fwb do mail (Assunto: Fireball 2)
 
 Abrir o `fwbuilder`
 
