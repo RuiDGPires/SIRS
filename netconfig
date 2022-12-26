@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo ifconfig enp0s8 192.168.0.100/24 up
+sudo systemctl restart network
