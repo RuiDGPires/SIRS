@@ -1,0 +1,5 @@
+#!/bin/sh
+
+openssl x509 -in $1.crt -out $1.pem -outform PEM
+sudo cp $1.pem /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust

@@ -7,19 +7,20 @@ import subprocess
 if len(sys.argv) != 2:
     print("Please specify a name for artifact generation")
     print("")
-    print("Usage: ./gencert <name>")
+    print("Usage: ./cert-generate <name>")
     print("Files to be generated:" )
     print("  <name>.key")
     print("  <name>.csr" )
     print("  <name>.crt" )
     exit(1)
 
-country = "PT"
 name = sys.argv[1]
+country = "PT"
 state = "Lisbon"
 city = "Lisbon"
 org = "IST"
 oun = ""
+mail = "ruigasparpires@tecnico.lisboa.pt"
 common = ""
 password = ""
 opt = ""
@@ -33,13 +34,13 @@ child.sendline(f"{country}")
 child.expect(".+")
 child.sendline(f"{state}")
 child.expect(".+")
-child.sendline(f"{state}")
-child.expect(".+")
 child.sendline(f"{city}")
 child.expect(".+")
 child.sendline(f"{org}")
 child.expect(".+")
 child.sendline(f"{oun}")
+child.expect(".+")
+child.sendline(f"{mail}")
 child.expect(".+")
 child.sendline(f"{common}")
 child.expect(".+")
