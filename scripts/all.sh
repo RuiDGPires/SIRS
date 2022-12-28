@@ -1,6 +1,11 @@
 #!/bin/sh
 
 readonly CWD=$(dirname "$0")
+
+if [ ! -d "$CWD/../cert/" ]; then
+	mkdir $CWD/../cert
+fi
+
 readonly cert_name=$CWD/../cert/cert-server
 
 echo "Stopping NGINX if it is running..."
