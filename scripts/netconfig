@@ -1,0 +1,6 @@
+#!/bin/sh
+
+readonly CWD=$(dirname "$0")
+
+sudo cp $1 /etc/sysconfig/network-scripts/
+sudo systemctl restart network

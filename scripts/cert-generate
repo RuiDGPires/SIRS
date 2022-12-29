@@ -1,0 +1,52 @@
+#!/bin/python3
+
+import sys
+import pexpect
+import subprocess
+
+if len(sys.argv) != 2:
+    print("Please specify a name for artifact generation")
+    print("")
+    print("Usage: ./cert-generate <name>")
+    print("Files to be generated:" )
+    print("  <name>.key")
+    print("  <name>.csr" )
+    print("  <name>.crt" )
+    exit(1)
+
+name = sys.argv[1]
+country = "PT"
+state = "Lisbon"
+city = "Lisbon"
+org = "IST"
+oun = ""
+common = "localhost"
+mail = "ruigasparpires@tecnico.lisboa.pt"
+password = ""
+opt = ""
+
+print("Generating Key...")
+subprocess.run(f"openssl genpkey -out {name}.key -algorithm RSA -pkeyopt rsa_keygen_bits:2048", shell=True)
+print("Generating the certificate...")
+child = pexpect.spawn(f"openssl req -new -key {name}.key -out {name}.csr")
+child.expect(".+")
+child.sendline(f"{country}")
+child.expect(".+")
+child.sendline(f"{state}")
+child.expect(".+")
+child.sendline(f"{city}")
+child.expect(".+")
+child.sendline(f"{org}")
+child.expect(".+")
+child.sendline(f"{oun}")
+child.expect(".+")
+child.sendline(f"{common}")
+child.expect(".+")
+child.sendline(f"{mail}")
+child.expect(".+")
+child.sendline(f"{password}")
+child.expect(".+")
+child.sendline(f"{opt}")
+
+print("Signing the certificate...")
+subprocess.run(f"openssl x509 -req -days 365 -in {name}.csr -signkey {name}.key -out {name}.crt", shell=True)
