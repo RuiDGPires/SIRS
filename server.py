@@ -12,7 +12,7 @@ CWD = os.path.dirname(__file__)
 
 DB_HOST="192.168.0.10"
 DB_USER="master" 
-DB_DATABASE=DB_USER
+DB_DATABASE="sirs"
 DB_PASSWORD="sirsebuefixe"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
 
@@ -47,11 +47,6 @@ def transaction(cursor):
 def commit(cursor):
     query(cursor, "COMMIT;")
 
-
-@app.before_request
-def before_request():
-    logger.info("BEFORE REQUEST: OK")
-
 @app.route("/")
 def index():
     logger.info("Ok")
@@ -77,5 +72,5 @@ def default_callback(e = None):
         return str(e), 400
     return "default_callback", 200
 
-#app.register_error_handler(Exception, default_callback)
+app.register_error_handler(Exception, default_callback)
 #app.run()
