@@ -1,9 +1,18 @@
 #!/bin/sh
 
+TRUE=1
+FALSE=0
+
 readonly CWD=$(dirname "$0")
+
+gencertificate="$FALSE"
 
 if [ ! -d "$CWD/../cert/" ]; then
 	mkdir $CWD/../cert
+fi
+
+if [ "$1" = "--cert-gen" ]; then
+	gencertificate="$TRUE"
 fi
 
 readonly cert_name=$CWD/../cert/cert-server
@@ -13,17 +22,19 @@ echo ""
 
 sudo nginx -s stop
 
-echo ""
-echo "Generating certificate..."
-echo ""
+if [ "$gencertificate" = "$TRUE" ]; then
+	echo ""
+	echo "Generating certificate..."
+	echo ""
 
-$CWD/cert-generate $cert_name
+	$CWD/cert-generate $cert_name
 
-echo ""
-echo "Configuring certificate..."
-echo ""
+	echo ""
+	echo "Configuring certificate..."
+	echo ""
 
-$CWD/cert-configure $cert_name
+	$CWD/cert-configure $cert_name
+fi
 
 echo ""
 echo "Starting NGINX..."
