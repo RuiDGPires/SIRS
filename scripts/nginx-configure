@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo cp $1 /etc/nginx/nginx.conf 
+sudo nginx -s reload
