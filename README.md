@@ -42,3 +42,9 @@ To re-attach to the tmux session:
 ```sh
 tmux attach
 ```
+
+## Beware
+
+The certificate is being configured with the common name `localhost`
+This should be changed to the public IP Address or, instead, the requests to that IP should be redirected to the `localhost`
+If the certificate is changed, the nginx.conf will also probably need to be changed accordingly 
