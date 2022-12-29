@@ -2,12 +2,15 @@
 
 ## Setup
 
-Firstly, install the needed packages and tools
+Firstly, install the needed packages and tools **(se faltar alguma coisa, adicionem neste script)**
 ```sh
 ./scripts/setup.sh
 ```
+If you want to re-run this script only to configure the network and nginx, run with the `--skip-install` flag, like so:
+```sh
+./scripts/setup.sh --skip-install
+```
 
-(se faltar alguma coisa, adicionem neste script)
 
 ## Running the Server
 
