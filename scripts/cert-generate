@@ -20,8 +20,8 @@ state = "Lisbon"
 city = "Lisbon"
 org = "IST"
 oun = ""
+common = "localhost"
 mail = "ruigasparpires@tecnico.lisboa.pt"
-common = ""
 password = ""
 opt = ""
 
@@ -40,9 +40,9 @@ child.sendline(f"{org}")
 child.expect(".+")
 child.sendline(f"{oun}")
 child.expect(".+")
-child.sendline(f"{mail}")
-child.expect(".+")
 child.sendline(f"{common}")
+child.expect(".+")
+child.sendline(f"{mail}")
 child.expect(".+")
 child.sendline(f"{password}")
 child.expect(".+")
