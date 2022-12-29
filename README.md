@@ -31,7 +31,7 @@ tmux
 
 Then, start the server...
 
-To detatch detatch from the tmux session:
+To detatch from the tmux session:
 > CTRL+B
 > D
 
