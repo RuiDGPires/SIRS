@@ -32,7 +32,8 @@ tmux
 Then, start the server...
 
 To detatch detatch from the tmux session:
-> CTRL+b -> d
+> CTRL+B
+> D
 
 To re-attach to the tmux session:
 ```sh
