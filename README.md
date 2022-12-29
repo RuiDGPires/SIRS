@@ -3,35 +3,39 @@
 ## Setup
 
 Firstly, install the needed packages and tools
-
-> ./scripts/setup.sh
+```sh
+./scripts/setup.sh
+```
 
 (se faltar alguma coisa, adicionem neste script)
 
-## Run Gunicorn
-
-**(Optional)** - to debug
-Open a tmux session:
-
-> tmux
-
----
+## Running the Server
 
 If it is the first time running the server, run with
-
-> ./scripts/all.sh --cert-gen
+```sh
+./scripts/all.sh --cert-gen
+```
 
 This will create and sign the certificate for the server and adds it to the trusted servers in this machine
+
 From now on, the server can be run simply with
-> ./scripts/all.sh
+```sh
+./scripts/all.sh
+```
+### [Optional] Tmux
 
+To open a tmux session:
+```sh
+tmux
+```
 
----
+Then, start the server...
 
-(If a tmux session was open...)
-Then, detatch from the tmux session with
-CTRL+b -> d
+To detatch from the tmux session:
+> CTRL+B
+> D
 
 To re-attach to the tmux session:
-> tmux attach
-
+```sh
+tmux attach
+```
