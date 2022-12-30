@@ -11,4 +11,4 @@ readonly CWD=$(dirname "$0")
 readonly NETWORKFILE=$CWD/../ifcfg-enp0s8 
 
 $CWD/netconfig $NETWORKFILE
-$CWD/db.sh
+$CWD/open-port.sh
