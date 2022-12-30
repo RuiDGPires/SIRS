@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- lang is and atribute, short for language -->
+<html lang="en"> <!-- lang is an atribute, short for language -->
     <head>
         <meta charset="UTF-8"> <!-- Meta page proprieties -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#8257E5">
         
         <title>Transportation & Distribution: Lemon</title>
+
+        <script type="text/javascript" src="../pages.js"> </script>
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet">
         
@@ -19,6 +21,11 @@
             </a>
             
             <h1>Login as a Employee</h1>
+            
+            <form onsubmit="login_employee()">
+                <input type="text" id="employee_user"/>
+                <input type="submit" />
+            </form>
 
         </div>
     </body>
