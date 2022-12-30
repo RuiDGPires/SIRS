@@ -5,7 +5,7 @@ drop table admins CASCADE;
 create table users (
     id   SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    otp  TEXT NOT NULL
+    secret  TEXT NOT NULL
 );
 
 create table employees (
