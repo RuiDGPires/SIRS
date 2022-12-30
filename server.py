@@ -6,6 +6,7 @@ import psycopg2.extras
 import logging
 import os
 import gunicorn.glogging
+import pyotp
 
 CWD = os.path.dirname(__file__)
 
@@ -60,16 +61,54 @@ def get_user(name):
     try:
         res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (name,)) 
     except Exception as e:
-        app.logger.warning(str(e))
+        logger.warning(str(e))
         "Nok", 400
 
     return str(res), 200
+
+@app.route("/users/<name>", methods=["PUT"])
+def put_user(name):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    secret = pyotp.random_base32()
+
+    try:
+        res = query(cursor, 'INSERT INTO users (name, secret) VALUES (%s, %s)', (name, secret)) 
+    except Exception as e:
+        logger.warning(str(e))
+        "Nok", 400
+
+    return "Ok: " + str(secret), 200
+
+@app.route("/login/<name>", methods=["GET"])
+def login(name):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    otp = request.args.get('otp')
+
+
+    try:
+        res = query(cursor, 'SELECT secret FROM users WHERE name=(%s)', (name,)) 
+    except Exception as e:
+        logger.warning(str(e))
+        "Nok", 400
+
+    secret = str(res[0][0])
+    totp = pyotp.TOTP(secret)
+
+    if totp.verify(otp):
+        return "Ok", 200
+    else:
+        return "Nok", 400
+
 
 @app.errorhandler(Exception)
 @app.route("/default_callback/", methods=["GET", "POST"])
 def default_callback(e = None):
     if e is not None:
-        return str(e), 400
+        return "error: " + str(e), 400
     return "default_callback", 200
 
 app.register_error_handler(Exception, default_callback)
