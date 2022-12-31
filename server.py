@@ -1,6 +1,10 @@
 #!/bin/env python3
 from flask import Flask
 from flask import request, redirect, url_for, abort
+from functools import wraps
+from hashlib import sha256
+import jwt
+import datetime
 import psycopg2
 import psycopg2.extras
 import logging
@@ -16,6 +20,7 @@ DB_USER="master"
 DB_DATABASE="sirs"
 DB_PASSWORD="sirsebuefixe"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
+APP_KEY = "PUK6HCM7CXYECEG7TP3C7LWBC3YOHLUV"
 
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
@@ -47,6 +52,60 @@ def transaction(cursor):
 
 def commit(cursor):
     query(cursor, "COMMIT;")
+
+def user_exists(username):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (username,))
+
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+    return res != []
+
+def is_admin(username):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    res = query(cursor, 'SELECT * FROM admins WHERE name=(%s)', (username,))
+
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+    return res != []
+
+def token_required(f):
+    @wraps(f)
+    def token_dec(*args, **kwargs):
+        token = request.args.get('token')
+
+        if not token:
+            return "Missing Token!", 400
+        try:
+            data = jwt.decode(token, APP_KEY, algorithms=["HS256"])
+        except:
+            return "Invalid Token", 400
+        
+        username = data["user"]
+        if not user_exists(username):
+            return "Invalid Token", 400
+
+        return f(id=username, *args, **kwargs)
+    return token_dec
+
+def admin_required(f):
+    @wraps(f)
+    def admin_dec(*args, **kwargs):
+        id = kwargs["id"]
+
+        if not is_admin(id):
+            return "No permission", 400
+
+        return f(*args, **kwargs)
+    return admin_dec
 
 @app.route("/")
 def index():
@@ -81,7 +140,7 @@ def put_user(name):
 
     return "Ok: " + str(secret), 200
 
-@app.route("/login/<name>", methods=["GET"])
+@app.route("/users/<name>/login", methods=["GET"])
 def login(name):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -98,10 +157,18 @@ def login(name):
     secret = str(res[0][0])
     totp = pyotp.TOTP(secret)
 
-    if totp.verify(otp):
-        return "Ok", 200
-    else:
+    if not totp.verify(otp):
         return "Nok", 400
+
+    exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+    token = jwt.encode({"user": name, "exp": exp}, APP_KEY, algorithm="HS256")
+
+    return str(token), 200
+
+@app.route("/test_login", methods=["GET"])
+@token_required
+def login(id):
+    return "Welcome " + id, 200
 
 
 @app.errorhandler(Exception)
