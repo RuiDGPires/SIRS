@@ -121,8 +121,10 @@ def get_user(name):
         res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (name,)) 
     except Exception as e:
         logger.warning(str(e))
-        "Nok", 400
+        return "Nok", 400
 
+    cursor.close()
+    dbConn.close()
     return str(res), 200
 
 @app.route("/users/<name>", methods=["PUT"])
@@ -130,13 +132,20 @@ def put_user(name):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
+    transaction(cursor)
+
     secret = pyotp.random_base32()
 
     try:
         res = query(cursor, 'INSERT INTO users (name, secret) VALUES (%s, %s)', (name, secret)) 
     except Exception as e:
         logger.warning(str(e))
-        "Nok", 400
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
 
     return "Ok: " + str(secret), 200
 
@@ -163,6 +172,8 @@ def login(name):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
     token = jwt.encode({"user": name, "exp": exp}, APP_KEY, algorithm="HS256")
 
+    cursor.close()
+    dbConn.close()
     return str(token), 200
 
 @app.route("/test_login", methods=["GET"])
