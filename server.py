@@ -167,7 +167,7 @@ def login(name):
 
 @app.route("/test_login", methods=["GET"])
 @token_required
-def login(id):
+def test_login(id):
     return "Welcome " + id, 200
 
 

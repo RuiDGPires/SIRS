@@ -12,6 +12,7 @@ if [ ! "$1" = "--skip-install" ]; then
 	sudo pip3 install pyotp
 	sudo pip3 install psycopg2
 	sudo pip3 install pexpect
+	sudo pip3 install pyjwt
 	sudo pip3 install gunicorn
 fi
 
