@@ -6,12 +6,12 @@ function Home() {
 
     const navigate = useNavigate();
 
-    const logincustomer = () => {
-        navigate("/logincustomer");
+    const loginCustomer = () => {
+        navigate("/login-customer");
     }
 
-    const loginemployee = () => {
-        navigate("/loginemployee");
+    const loginEmployee = () => {
+        navigate("/login-employee");
     }
 
 
@@ -22,7 +22,7 @@ function Home() {
             </div>
 
             <a class="customer" >
-                <button className="customer" onClick={logincustomer}>
+                <button className="customer" onClick={loginCustomer}>
                     Login as a Customer
                 </button>
             </a>
@@ -30,7 +30,7 @@ function Home() {
             <br/>
             
             <a class="employee" >
-                <button className="employee" onClick={loginemployee}>
+                <button className="employee" onClick={loginEmployee}>
                     Login as a Employee
                 </button>
             </a>

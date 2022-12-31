@@ -15,7 +15,6 @@ to run you need react
 
 `npm i react-router-dom`
 
-
 ### Run
 
 `npm start`

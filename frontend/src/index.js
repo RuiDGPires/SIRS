@@ -14,8 +14,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/logincustomer" element={<LoginCustomer />} />
-        <Route path="/loginemployee" element={<LoginEmployee />} />
+        <Route path="/login-customer" element={<LoginCustomer />} />
+        <Route path="/login-employee" element={<LoginEmployee />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
