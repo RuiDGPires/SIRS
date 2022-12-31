@@ -35,6 +35,13 @@ function Home() {
                 </button>
             </a>
 
+            <ul>
+                <li>Registration Employee</li>
+                <li>Registration Customer</li>
+                <li>Employee Page</li>
+                <li>Customer Page</li>
+            </ul>
+
             <p class="total-bikes">
                 Total of 20000 bikes all around Portugal
             </p>
