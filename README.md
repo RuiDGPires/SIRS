@@ -21,4 +21,5 @@ Usar a pass: **sirsebuefixe**
 ./scripts/db.sh
 >>> \i sql/schema.sql
 >>> \i sql/populate.sql
+>>> \q
 ```
