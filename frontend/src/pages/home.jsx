@@ -21,7 +21,7 @@ function Home() {
                 <h1>Transportation & Distribution: Lemon</h1>
             </div>
 
-            <a class="customer" >
+            <a className="customer" >
                 <button className="customer" onClick={loginCustomer}>
                     Login as a Customer
                 </button>
@@ -29,7 +29,7 @@ function Home() {
 
             <br/>
             
-            <a class="employee" >
+            <a className="employee" >
                 <button className="employee" onClick={loginEmployee}>
                     Login as a Employee
                 </button>
@@ -42,7 +42,7 @@ function Home() {
                 <li>Customer Page</li>
             </ul>
 
-            <p class="total-bikes">
+            <p className="total-bikes">
                 Total of 20000 bikes all around Portugal
             </p>
         </div>

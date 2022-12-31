@@ -7,6 +7,7 @@ import Home from './pages/home';
 import LoginCustomer from './pages/login-customer';
 import LoginEmployee from './pages/login-employee';
 import Customer from './pages/customer';
+import Employee from './pages/employee';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,6 +19,7 @@ root.render(
         <Route path="/login-customer" element={<LoginCustomer />} />
         <Route path="/customer/:username" element={<Customer />} />
         <Route path="/login-employee" element={<LoginEmployee />} />
+        <Route path="/employee/:username" element={<Employee />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-function Customer() {
+function Employee() {
 
     const { username } = useParams();
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Customer() {
                 Back
             </a>
 
-            <h1>Hi Customer</h1>
+            <h1>Hi Employee</h1>
 
             <h2> { username }</h2>
 
@@ -30,4 +30,4 @@ function Customer() {
     );
 }
 
-export default Customer;
+export default Employee;
