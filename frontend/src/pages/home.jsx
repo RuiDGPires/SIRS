@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 function Home() {
+
+    const navigate = useNavigate();
+
+    const logincustomer = () => {
+        navigate("/logincustomer");
+    }
+
+    const loginemployee = () => {
+        navigate("/loginemployee");
+    }
+
 
     return (
         <div className="background">
@@ -9,13 +22,17 @@ function Home() {
             </div>
 
             <a class="customer" >
-                Login as a Customer
+                <button className="customer" onClick={logincustomer}>
+                    Login as a Customer
+                </button>
             </a>
 
             <br/>
             
             <a class="employee" >
-                Login as a Employee
+                <button className="employee" onClick={loginemployee}>
+                    Login as a Employee
+                </button>
             </a>
 
             <p class="total-bikes">
