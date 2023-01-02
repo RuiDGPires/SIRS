@@ -14,12 +14,36 @@ function Home() {
         navigate("/login-employee");
     }
 
+    const registerCustomer = () => {
+        navigate("/register-customer");
+    }
+
+    const registerEmployee = () => {
+        navigate("/register-employee");
+    }
+
 
     return (
         <div className="background">
             <div className="title">
                 <h1>Transportation & Distribution: Lemon</h1>
             </div>
+
+            <a className="customer" >
+                <button className="customer" onClick={registerCustomer}>
+                    Register as a Customer
+                </button>
+            </a>
+
+            <br/>
+
+            <a className="employee" >
+                <button className="employee" onClick={registerEmployee}>
+                    Register as a Employee
+                </button>
+            </a>
+
+            <br/>
 
             <a className="customer" >
                 <button className="customer" onClick={loginCustomer}>
@@ -35,9 +59,9 @@ function Home() {
                 </button>
             </a>
 
+            <br/>
+
             <ul>
-                <li>Registration Employee</li>
-                <li>Registration Customer</li>
                 <li>Employee Page</li>
                 <li>Customer Page</li>
             </ul>
