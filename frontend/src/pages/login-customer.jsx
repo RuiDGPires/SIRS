@@ -29,7 +29,7 @@ function LoginCustomer() {
             <h1>Login as a Customer</h1>
 
             <Form onSubmit={loginCustomer} className="form">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">
+                <Form.Group>
                     <Form.Control type="text" placeholder="Username" />
                 </Form.Group>
 

@@ -28,16 +28,16 @@ function LoginEmployee() {
                 <h1>Login as an Employee</h1>
                 
                 <Form onSubmit={loginEmployee} className="form">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">
-                    <Form.Control type="text" placeholder="Username" />
-                </Form.Group>
+                    <Form.Group>
+                        <Form.Control type="text" placeholder="Username" />
+                    </Form.Group>
 
-                <Button variant="primary" type="submit" className="[ button ]">
-                    <div className="buttonText">
-                        Submit
-                    </div>
-                </Button>
-            </Form>
+                    <Button variant="primary" type="submit" className="[ button ]">
+                        <div className="buttonText">
+                            Submit
+                        </div>
+                    </Button>
+                </Form>
 
                 <h2>TODO: Cena da One time Password</h2>
 

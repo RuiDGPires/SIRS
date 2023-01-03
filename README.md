@@ -9,11 +9,19 @@ CREATE A BRANCH FOR:
 
 ### Setup
 
-to run you need react
+`sudo apt update`
+`sudo apt install npm`
+`npm install`
 
-`npm install react-bootstrap bootstrap`
+You may need: `npm config set strict-ssl false`
 
-`npm i react-router-dom`
+#### Unexpected token on npm start (Possible fix)
+
+`curl https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash`
+
+`nvm install 18.0.0`
+
+Try again
 
 ### Run
 

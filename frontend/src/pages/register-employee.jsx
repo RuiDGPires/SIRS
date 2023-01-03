@@ -45,6 +45,7 @@ function RegisterEmployee() {
 
             <a button className="customer" onClick={home}>
                     Back
+        }
             </a>
 
             <h1>Register as an Employee</h1>
