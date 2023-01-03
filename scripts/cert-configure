@@ -1,5 +1,10 @@
 #!/bin/sh
 
-openssl x509 -in $1.crt -out $1.pem -outform PEM
-sudo cp $1.pem /etc/pki/ca-trust/source/anchors/
-sudo update-ca-trust
+readonly PSQL_DATA_PATH=/var/lib/pgsql/data
+
+sudo cp $1.crt $1.key $PSQL_DATA_PATH/
+
+readonly name=$(basename $1)
+readonly key=$PSQL_DATA_PATH/$name.key
+sudo chmod 600 $key
+sudo chown postgres $key

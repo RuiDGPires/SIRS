@@ -12,6 +12,7 @@ readonly NETWORKFILE=$CWD/../ifcfg-enp0s8
 readonly PG_CONF=$CWD/../pg_hba.conf
 readonly PSQL_CONF=$CWD/../postgresql.conf
 
+$CWD/cert-configure $CWD/../cert/db-cert
 $CWD/psql-configure $PG_CONF $PSQL_CONF
 $CWD/netconfig $NETWORKFILE
 $CWD/open-port.sh
