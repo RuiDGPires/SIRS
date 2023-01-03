@@ -25,7 +25,7 @@ function LoginEmployee() {
                     Back
                 </a>
                 
-                <h1>Login as a Employee</h1>
+                <h1>Login as an Employee</h1>
                 
                 <Form onSubmit={loginEmployee} className="form">
                 <Form.Group className="[ mb-3 ] [ nm-input ]">

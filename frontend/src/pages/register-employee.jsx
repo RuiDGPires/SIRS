@@ -47,38 +47,38 @@ function RegisterEmployee() {
                     Back
             </a>
 
+            <h1>Register as an Employee</h1>
 
-            <div className="form">
+            <Form onChange={(e) => handleInputChange(e)} className="firstname">
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert First Name 
+                    <Form.Control type="text" placeholder="First Name" id="firstName" value={firstName}/>
+                </Form.Group>
+            </Form>
 
-                <div className="form-body">
+            <Form onChange={(e) => handleInputChange(e)} className="lastname">
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Last Name 
+                    <Form.Control type="text" placeholder="Last Name" id="lastName" value={lastName}/>
+                </Form.Group>
+            </Form>
 
-                    <div className="username">
-                        <label className="[ mb-3 ] [ nm-input ]" for="firstName">First Name </label>
-                        <input className="[ mb-3 ] [ nm-input ]" type="text" name="" id="firstName" value={firstName} onChange = {(e) => handleInputChange(e)} placeholder="First Name"/>
-                    </div>
+            <Form onChange={(e) => handleInputChange(e)} className="email">
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert E-Mail 
+                    <Form.Control type="text" placeholder="Email" id="email" value={email}/>
+                </Form.Group>
+            </Form>
 
-                    <div className="lastname">
-                        <label className="[ mb-3 ] [ nm-input ]" for="lastName">Last Name </label>
-                        <input className="[ mb-3 ] [ nm-input ]" type="text" name="" id="lastName" value={lastName} onChange = {(e) => handleInputChange(e)} placeholder="LastName"/>
-                    </div>
+            <Form onChange={(e) => handleInputChange(e)} className="username">
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Username
+                    <Form.Control type="text" placeholder="Username" id="username" value={username}/>
+                </Form.Group>
+            </Form>
 
-                    <div className="email">
-                        <label className="[ mb-3 ] [ nm-input ]" for="email">Email </label>
-                        <input className="[ mb-3 ] [ nm-input ]" type="email" id="email" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
-                    </div>
 
-                    <div className="username">
-                        <label className="[ mb-3 ] [ nm-input ]" for="username">Username </label>
-                        <input className="[ mb-3 ] [ nm-input ]" type="username"  id="username" value={username} onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
-                    </div>
-
+            <Button onClick={()=>handleSubmit()} variant="primary" type="submit" className="[ button ]">
+                <div className="buttonText">
+                    Register as an Employee
                 </div>
-
-                <div class="footer">
-                    <button variant="primary" onClick={()=>handleSubmit()} type="submit" className="[ button ]">Register as an Employee</button>
-                </div>
-
-            </div>
+            </Button>
 
         </div>
        

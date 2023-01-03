@@ -39,7 +39,7 @@ function Home() {
 
             <a className="employee" >
                 <button className="employee" onClick={registerEmployee}>
-                    Register as a Employee
+                    Register as an Employee
                 </button>
             </a>
 
@@ -55,7 +55,7 @@ function Home() {
             
             <a className="employee" >
                 <button className="employee" onClick={loginEmployee}>
-                    Login as a Employee
+                    Login as an Employee
                 </button>
             </a>
 
