@@ -9,6 +9,9 @@ fi
 
 readonly CWD=$(dirname "$0")
 readonly NETWORKFILE=$CWD/../ifcfg-enp0s8 
+readonly PG_CONF=$CWD/../pg_hba.conf
+readonly PSQL_CONF=$CWD/../postgresql.conf
 
+$CWD/psql-configure $PG_CONF $PSQL_CONF
 $CWD/netconfig $NETWORKFILE
 $CWD/open-port.sh
