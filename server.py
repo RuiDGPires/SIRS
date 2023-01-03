@@ -11,6 +11,7 @@ import logging
 import os
 import gunicorn.glogging
 import pyotp
+import json
 
 CWD = os.path.dirname(__file__)
 
@@ -147,7 +148,7 @@ def put_user(name):
     dbConn.close()
     cursor.close()
 
-    return "Ok: " + str(secret), 200
+    return json.dumps({"secret": str(secret)}), 200
 
 @app.route("/users/<name>/login", methods=["GET"])
 def login(name):
@@ -174,7 +175,7 @@ def login(name):
 
     cursor.close()
     dbConn.close()
-    return str(token), 200
+    return json.dumps({"token": str(token)}), 200
 
 @app.route("/test_login", methods=["GET"])
 @token_required
