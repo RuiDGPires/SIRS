@@ -27,6 +27,10 @@ function Home() {
         navigate("/employee/:username");
     }
 
+    const customer = () => {
+        navigate("/customer/:username");
+    }
+
 
     return (
         <div className="background">
@@ -72,10 +76,13 @@ function Home() {
                 </button>
             </a>
 
-            <ul>
-                <li>Employee Page</li>
-                <li>Customer Page</li>
-            </ul>
+            <br/>
+
+            <a className="customer" >
+                <button className="customer" onClick={customer}>
+                    Customer Page
+                </button>
+            </a>
 
             <p className="total-bikes">
                 Total of 20000 bikes all around Portugal
