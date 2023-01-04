@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Employee from "./employee";
 
 
 function Home() {
@@ -20,6 +21,10 @@ function Home() {
 
     const registerEmployee = () => {
         navigate("/register-employee");
+    }
+
+    const employee = () => {
+        navigate("/employee/:username");
     }
 
 
@@ -60,6 +65,12 @@ function Home() {
             </a>
 
             <br/>
+
+            <a className="employee" >
+                <button className="employee" onClick={employee}>
+                    Employee Page
+                </button>
+            </a>
 
             <ul>
                 <li>Employee Page</li>

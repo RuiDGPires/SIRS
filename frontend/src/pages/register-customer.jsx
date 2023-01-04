@@ -44,7 +44,7 @@ function RegisterCustomer() {
         <div id="container">
 
             <a button className="customer" onClick={home}>
-                    Back
+                Back
             </a>
 
             <h1>Register as a Customer</h1>

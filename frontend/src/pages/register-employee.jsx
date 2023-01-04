@@ -37,6 +37,10 @@ function RegisterEmployee() {
     const handleSubmit  = () => {
         console.log(firstName,lastName,email,username);
         //TODO: criar entry
+        //IF:user entry success
+        navigate("/employee/:" + username);
+        //ELSE
+        //<h1>400: error creating new user employee</h1>
     }
 
     return(
@@ -44,8 +48,8 @@ function RegisterEmployee() {
         <div id="container">
 
             <a button className="customer" onClick={home}>
-                    Back
-        }
+                Back
+        
             </a>
 
             <h1>Register as an Employee</h1>
