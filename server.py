@@ -55,10 +55,25 @@ def commit(cursor):
     query(cursor, "COMMIT;")
 
 def user_exists(username):
+    return is_client(username) or is_employee(username) or is_admin(username)
+
+def is_client(username):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (username,))
+    res = query(cursor, 'SELECT * FROM clients WHERE name=(%s)', (username,))
+
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+    return res != []
+
+def is_employee(username):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    res = query(cursor, 'SELECT * FROM employees WHERE name=(%s)', (username,))
 
     dbConn.commit()
     cursor.close()
@@ -113,23 +128,30 @@ def index():
     logger.info("Ok")
     return "ok", 200
 
-@app.route("/users/<name>", methods=["GET"])
-def get_user(name):
+@app.route("/clients/<name>", methods=["GET"])
+@token_required
+def get_client(id, name):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
+    if id != name:
+        return "Forbidden", 403
+
     try:
-        res = query(cursor, 'SELECT * FROM users WHERE name=(%s)', (name,)) 
+        res = query(cursor, 'SELECT * FROM clients WHERE name=(%s)', (name,)) 
+        info = res[0]
     except Exception as e:
         logger.warning(str(e))
         return "Nok", 400
+
+
+    user = {"id": info[0],}
 
     cursor.close()
     dbConn.close()
     return str(res), 200
 
-@app.route("/users/<name>", methods=["PUT"])
-def put_user(name):
+def put_user(name, table):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
@@ -137,8 +159,14 @@ def put_user(name):
 
     secret = pyotp.random_base32()
 
+    if user_exists(name):
+        return "Duplicate", 409
+
     try:
-        res = query(cursor, 'INSERT INTO users (name, secret) VALUES (%s, %s)', (name, secret)) 
+        query(cursor, 'INSERT INTO users (secret) VALUES (%s)', (secret,)) 
+        res = query(cursor, 'SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users)') 
+        id = res[0][0]
+        query(cursor, f'INSERT INTO {table} (id, name) VALUES (%s, %s)', (id, name))
     except Exception as e:
         logger.warning(str(e))
         return "Nok", 400
@@ -147,19 +175,33 @@ def put_user(name):
     dbConn.commit()
     dbConn.close()
     cursor.close()
+   
+    return secret
+    
 
+@app.route("/clients/<name>", methods=["PUT"])
+def put_client(name):
+    secret = put_user(name, "clients")
     return json.dumps({"secret": str(secret)}), 200
 
-@app.route("/users/<name>/login", methods=["GET"])
-def login(name):
+@app.route("/employees/<name>", methods=["PUT"])
+def put_employee(name):
+    secret = put_user(name, "employees")
+    return json.dumps({"secret": str(secret)}), 200
+
+@app.route("/admins/<name>", methods=["PUT"])
+def put_admin(name):
+    secret = put_user(name, "admins")
+    return json.dumps({"secret": str(secret)}), 200
+
+def login_user(name, table):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     otp = request.args.get('otp')
 
-
     try:
-        res = query(cursor, 'SELECT secret FROM users WHERE name=(%s)', (name,)) 
+        res = query(cursor, f'SELECT secret FROM users NATURAL JOIN {table} WHERE name=(%s)', (name,)) 
     except Exception as e:
         logger.warning(str(e))
         "Nok", 400
@@ -177,11 +219,22 @@ def login(name):
     dbConn.close()
     return json.dumps({"token": str(token)}), 200
 
+@app.route("/clients/<name>/login", methods=["GET"])
+def login_client(name):
+    return login_user(name, "clients")
+
+@app.route("/employees/<name>/login", methods=["GET"])
+def login_employee(name):
+    return login_user(name, "employees")
+
+@app.route("/admins/<name>/login", methods=["GET"])
+def login_admin(name):
+    return login_user(name, "admins")
+
 @app.route("/test_login", methods=["GET"])
 @token_required
 def test_login(id):
     return "Welcome " + id, 200
-
 
 @app.errorhandler(Exception)
 @app.route("/default_callback/", methods=["GET", "POST"])
