@@ -1,6 +1,6 @@
 const baseURL = "https://192.168.1.1";
 
-const registerCustomer = async(userName, firstName, lastName, email) => {
+export const registerCustomer = async(userName, firstName, lastName, email) => {
     const response = await fetch(baseURL + `/clients/` + userName, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -16,13 +16,19 @@ const registerCustomer = async(userName, firstName, lastName, email) => {
     return response;
 }
 
+export const loginCustomer = async(username, oneTimePassword) => {
+    const response = await fetch(baseURL + '/clients/' + username + '/login?otp=' + oneTimePassword);
+
+    console.log(response);
+
+    return response;
+}
+
 const registerEmployee = async(username) => {
     // Returns SecretKey
 }
 
-export const fetchLoginCustomer = async(username, oneTimePassword) => {
 
-}
 
 export const loginEmployee = async(username, oneTimePassword) => {
 
