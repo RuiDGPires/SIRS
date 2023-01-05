@@ -1,6 +1,7 @@
 #!/bin/env python3
 from flask import Flask
 from flask import request, redirect, url_for, abort
+from flask_cors import CORS
 from functools import wraps
 from hashlib import sha256
 import jwt
@@ -24,6 +25,7 @@ DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DA
 APP_KEY = "PUK6HCM7CXYECEG7TP3C7LWBC3YOHLUV"
 
 app = Flask(__name__)
+CORS(app)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 

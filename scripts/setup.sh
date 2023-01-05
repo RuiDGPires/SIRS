@@ -9,6 +9,7 @@ if [ ! "$1" = "--skip-install" ]; then
 	sudo yum install postgresql -y
 
 	sudo pip3 install flask
+	sudo pip3 install -U flask-cors
 	sudo pip3 install pyotp
 	sudo pip3 install psycopg2
 	sudo pip3 install pexpect
