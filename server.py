@@ -54,14 +54,11 @@ def transaction(cursor):
 def commit(cursor):
     query(cursor, "COMMIT;")
 
-def user_exists(username):
-    return is_client(username) or is_employee(username) or is_admin(username)
-
-def is_client(username):
+def user_exists(id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    res = query(cursor, 'SELECT * FROM clients WHERE name=(%s)', (username,))
+    res = query(cursor, 'SELECT * FROM users WHERE id=(%s)', (id,))
 
     dbConn.commit()
     cursor.close()
@@ -69,11 +66,11 @@ def is_client(username):
 
     return res != []
 
-def is_employee(username):
+def is_client(id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    res = query(cursor, 'SELECT * FROM employees WHERE name=(%s)', (username,))
+    res = query(cursor, 'SELECT * FROM clients WHERE id=(%s)', (id,))
 
     dbConn.commit()
     cursor.close()
@@ -81,11 +78,23 @@ def is_employee(username):
 
     return res != []
 
-def is_admin(username):
+def is_employee(id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    res = query(cursor, 'SELECT * FROM admins WHERE name=(%s)', (username,))
+    res = query(cursor, 'SELECT * FROM employees WHERE id=(%s)', (id,))
+
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+    return res != []
+
+def is_admin(id):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    res = query(cursor, 'SELECT * FROM admins WHERE id=(%s)', (id,))
 
     dbConn.commit()
     cursor.close()
@@ -105,12 +114,11 @@ def token_required(f):
         except:
             return "Invalid Token", 400
         
-        username = data["user"]
         id       = data["id"]
-        if not user_exists(username):
+        if not user_exists(id):
             return "Invalid Token", 400
 
-        return f(id=(username, id), *args, **kwargs)
+        return f(id=id, *args, **kwargs)
     return token_dec
 
 def admin_required(f):
@@ -129,12 +137,34 @@ def index():
     logger.info("Ok")
     return "ok", 200
 
-def get_user(id, name, table):
-    username, id = id
+def get_name(id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    if username != name:
+    if is_client(id):
+        table = "clients"
+    elif is_employee(id):
+        table = "employees"
+    elif is_admin(id):
+        table = "admins"
+
+    try:
+        res = query(cursor, f'SELECT (name) FROM users NATURAL JOIN {table} WHERE id=(%s)', (id,)) 
+        info = res[0]
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+
+    cursor.close()
+    dbConn.close()
+    return info[0]
+
+def get_user(id, name, table):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if get_name(id) != name:
         return "Forbidden", 403
 
     try:
@@ -153,6 +183,38 @@ def get_user(id, name, table):
     cursor.close()
     dbConn.close()
     return json.dumps(user), 200
+
+@app.route("/bicicles/<n>", methods=["GET"])
+@token_required
+def get_n_bicicles(id, n):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    try:
+        if is_employee(id):
+            res = query(cursor, 'SELECT latitude, longitude, rightly_parked FROM bikes')
+        else:
+            res = query(cursor, 'SELECT latitude, longitude, rightly_parked FROM bikes WHERE rightly_parked=true')
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+
+    bikes = []
+    for bike in res:
+        if is_employee(id):
+            bikes.append({"latitude": bike[0], "longitude": bike[1], "rightly_parked": bike[2]})
+        else:
+            bikes.append({"latitude": bike[0], "longitude": bike[1]})
+
+    cursor.close()
+    dbConn.close()
+    return json.dumps(bikes), 200
+
+@app.route("/bicicles", methods=["GET"])
+@token_required
+def get_bicicles(id):
+    return get_n_bicicles(n=10)
 
 @app.route("/clients/<name>", methods=["GET"])
 @token_required
@@ -177,7 +239,6 @@ def put_user(name, table):
 
     secret = pyotp.random_base32()
 
-
     try:
         query(cursor, 'INSERT INTO users (secret) VALUES (%s)', (secret,)) 
         res = query(cursor, 'SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users)') 
@@ -197,20 +258,14 @@ def put_user(name, table):
 
 @app.route("/clients/<name>", methods=["PUT"])
 def put_client(name):
-    if is_client(name):
-        return "Duplicate", 409
     return put_user(name, "clients")
 
 @app.route("/employees/<name>", methods=["PUT"])
 def put_employee(name):
-    if is_employee(name):
-        return "Duplicate", 409
     return put_user(name, "employees")
 
 @app.route("/admins/<name>", methods=["PUT"])
 def put_admin(name):
-    if is_admin(name):
-        return "Duplicate", 409
     return put_user(name, "admins")
 
 def login_user(name, table):
@@ -233,7 +288,7 @@ def login_user(name, table):
         return "Nok", 400
 
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
-    token = jwt.encode({"user": name, "id": id ,"exp": exp}, APP_KEY, algorithm="HS256")
+    token = jwt.encode({"id": id ,"exp": exp}, APP_KEY, algorithm="HS256")
 
     cursor.close()
     dbConn.close()
@@ -254,8 +309,7 @@ def login_admin(name):
 @app.route("/test_login", methods=["GET"])
 @token_required
 def test_login(id):
-    username, id = id
-    return "Welcome " + username, 200
+    return "Welcome " + get_name(id), 200
 
 @app.errorhandler(Exception)
 @app.route("/default_callback/", methods=["GET", "POST"])
