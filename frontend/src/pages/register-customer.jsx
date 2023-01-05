@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { registerCustomer } from "../service/service";
 
 
 function RegisterCustomer() {
@@ -12,30 +13,13 @@ function RegisterCustomer() {
         navigate("/");
     }
 
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [username,setUsername] = useState(null);
-
-    const handleInputChange = (e) => {
-        const {id , value} = e.target;
-        if(id === "firstName"){
-            setFirstName(value);
-        }
-        if(id === "lastName"){
-            setLastName(value);
-        }
-        if(id === "email"){
-            setEmail(value);
-        }
-        if(id === "username"){
-            setUsername(value);
-        }
-
-    }
-
-    const registerCustomer  = () => {
+    const registerCustomerUI  = (event) => {
+        let firstName = event.target[0].value;
+        let lastName = event.target[1].value;
+        let email = event.target[2].value;
+        let username = event.target[3].value;
         console.log(firstName,lastName,email,username);
+        registerCustomer(firstName, lastName, email, username);
         //TODO: criar entry
         //IF:user entry success
         navigate("/customer/" + username);
@@ -53,37 +37,29 @@ function RegisterCustomer() {
 
             <h2>Register as a Customer</h2>
 
-            <Form onChange={(e) => handleInputChange(e)} className="firstname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert First Name 
+            <Form onSubmit={registerCustomerUI} className="firstname">
+                <Form.Group>Insert First Name 
                     <Form.Control type="text" placeholder="First Name" id="firstName" value={firstName}/>
                 </Form.Group>
-            </Form>
 
-            <Form onChange={(e) => handleInputChange(e)} className="lastname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Last Name 
+                <Form.Group>Insert Last Name 
                     <Form.Control type="text" placeholder="Last Name" id="lastName" value={lastName}/>
                 </Form.Group>
-            </Form>
 
-            <Form onChange={(e) => handleInputChange(e)} className="email">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert E-Mail 
+                <Form.Group>Insert E-Mail 
                     <Form.Control type="text" placeholder="Email" id="email" value={email}/>
                 </Form.Group>
-            </Form>
 
-            <Form onChange={(e) => handleInputChange(e)} className="username">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Username
+                <Form.Group>Insert Username
                     <Form.Control type="text" placeholder="Username" id="username" value={username}/>
                 </Form.Group>
+
+                <Button variant="primary" type="submit" className="[ button ]">
+                    <div className="buttonText">
+                        Register as a Customer
+                    </div>
+                </Button>
             </Form>
-
-
-            <Button onClick={registerCustomer} variant="primary" type="submit" className="[ button ]">
-                <div className="buttonText">
-                    Register as a Customer
-                </div>
-            </Button>
-
         </div>
        
     );
