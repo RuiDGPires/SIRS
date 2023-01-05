@@ -8,6 +8,9 @@ drop table bikes CASCADE;
 create table users (
     id SERIAL PRIMARY KEY,
     secret  TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT,
 	foreign key(id) references users(id)
 );
 

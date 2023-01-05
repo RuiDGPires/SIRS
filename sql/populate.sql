@@ -1,7 +1,7 @@
-INSERT INTO users (secret) VALUES ('TVBRW2DTRY35QXJRQKZAIEX3PKUID5O3');
+INSERT INTO users (secret, first_name, last_name, email) VALUES ('TVBRW2DTRY35QXJRQKZAIEX3PKUID5O3', 'Rui', 'Pires', 'ruidgpires10@gmail.com');
 INSERT INTO clients (id, name) VALUES ((select MAX(id) FROM users), 'Rui');
 
-INSERT INTO users (secret) VALUES ('P7ZI2QTVTSPX6HPAQEU3HXFNBH6RCBLB');
+INSERT INTO users (secret, first_name, last_name, email) VALUES ('P7ZI2QTVTSPX6HPAQEU3HXFNBH6RCBLB', 'Ana', 'Duarte', 'anaritard@gmail.com');
 INSERT INTO employees (id, name) VALUES ((select MAX(id) FROM users), 'Rita');
 
 
