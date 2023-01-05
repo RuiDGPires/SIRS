@@ -184,7 +184,7 @@ def get_user(id, name, table):
     dbConn.close()
     return json.dumps(user), 200
 
-@app.route("/bicicles/<n>", methods=["GET"])
+@app.route("/bicicles/list/<n>", methods=["GET"])
 @token_required
 def get_n_bicicles(id, n):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
@@ -192,26 +192,34 @@ def get_n_bicicles(id, n):
 
     try:
         if is_employee(id):
-            res = query(cursor, 'SELECT latitude, longitude, rightly_parked FROM bikes')
+            res = query(cursor, 'SELECT id, latitude, longitude, rightly_parked FROM bikes')
         else:
-            res = query(cursor, 'SELECT latitude, longitude, rightly_parked FROM bikes WHERE rightly_parked=true')
+            res = query(cursor, 'SELECT id, latitude, longitude, rightly_parked FROM bikes WHERE rightly_parked=true')
+
+        bikes = []
+        count = 0
+        for bike in res:
+            if count >= int(n):
+                break
+
+            is_locked = [] != query(cursor, 'SELECT * FROM locked_bikes WHERE id=(%s)', (bike[0],)) 
+
+            if is_employee(id):
+                bikes.append({"id": bike[0], "latitude": bike[1], "longitude": bike[2], "rightly_parked": bike[3], "locked": is_locked})
+            else:
+                bikes.append({"id": bike[0], "latitude": bike[1], "longitude": bike[2], "locked": is_locked})
+            count += 1
     except Exception as e:
         logger.warning(str(e))
         return "Nok", 400
 
 
-    bikes = []
-    for bike in res:
-        if is_employee(id):
-            bikes.append({"latitude": bike[0], "longitude": bike[1], "rightly_parked": bike[2]})
-        else:
-            bikes.append({"latitude": bike[0], "longitude": bike[1]})
 
     cursor.close()
     dbConn.close()
     return json.dumps(bikes), 200
 
-@app.route("/bicicles", methods=["GET"])
+@app.route("/bicicles/list", methods=["GET"])
 @token_required
 def get_bicicles(id):
     return get_n_bicicles(n=10)
@@ -267,6 +275,96 @@ def put_employee(name):
 @app.route("/admins/<name>", methods=["PUT"])
 def put_admin(name):
     return put_user(name, "admins")
+
+@app.route("/bicicles/<bike_id>/lock", methods=["GET"])
+@token_required
+def lock_bike(id, bike_id):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    transaction(cursor)
+
+    secret = pyotp.random_base32()
+
+    try:
+        res = query(cursor, 'SELECT * FROM locked_bikes WHERE id=(%s) FOR UPDATE', (bike_id,)) 
+        if res != []:
+            return "Bicicle already locked", 400
+
+        query(cursor, f'INSERT INTO locked_bikes (id, locked_by) VALUES (%s, %s)', (bike_id, id))
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
+   
+    return "Ok", 200
+
+@app.route("/bicicles/<bike_id>/unlock", methods=["GET"])
+@token_required
+def unlock_bike(id, bike_id):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    transaction(cursor)
+
+    secret = pyotp.random_base32()
+
+    try:
+        res = query(cursor, 'SELECT * FROM locked_bikes WHERE id=(%s) AND locked_by=(%s) FOR UPDATE', (bike_id, id)) 
+        if res == []:
+            return "Bicicle not locked by this user", 400
+
+        query(cursor, f'DELETE FROM locked_bikes WHERE id=(%s)', (bike_id,))
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
+   
+    return "Ok", 200
+
+@app.route("/bicicles/<bike_id>", methods=["GET"])
+@token_required
+def get_bike(id, bike_id):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    secret = pyotp.random_base32()
+    logger.info("here")
+
+    try:
+        res = query(cursor, 'SELECT latitude, longitude, rightly_parked FROM bikes WHERE id=(%s)', (bike_id,)) 
+        if res == []:
+            return "Bicicle not found", 404
+
+        bike = res[0]
+        is_locked = [] != query(cursor, 'SELECT * FROM locked_bikes WHERE id=(%s)', (bike_id,)) 
+
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    if is_client(id):
+        if not is_locked:
+            info = {"latitude": bike[0], "longitude": bike[1], "locked": is_locked}
+        else:
+            info = {"locked": is_locked}
+    else:
+        info = {"latitude": bike[0], "longitude": bike[1], "rightly_parked": bike[2], "locked": is_locked}
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
+   
+    return json.dumps(info), 200
 
 def login_user(name, table):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
