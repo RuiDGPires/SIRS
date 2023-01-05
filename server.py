@@ -164,11 +164,8 @@ def get_user(id, name, table):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    if get_name(id) != name:
-        return "Forbidden", 403
-
     try:
-        res = query(cursor, f'SELECT * FROM users NATURAL JOIN {table} WHERE name=(%s)', (name,)) 
+        res = query(cursor, f'SELECT id, secret, name, first_name, last_name, email FROM users NATURAL JOIN {table} WHERE name=(%s)', (name,)) 
         info = res[0]
     except Exception as e:
         logger.warning(str(e))
@@ -177,7 +174,10 @@ def get_user(id, name, table):
 
     user = {"id": info[0],
             "secret": info[1],
-            "username": info[2]
+            "username": info[2],
+            "first_name": info[3],
+            "last_name": info[4],
+            "email": info[5]
             }
 
     cursor.close()
@@ -227,16 +227,25 @@ def get_bicicles(id):
 @app.route("/clients/<name>", methods=["GET"])
 @token_required
 def get_client(id, name):
+    if not is_admin(id) and not (is_client(id) and get_name(id) == name):
+        return "Forbidden", 403
+
     return get_user(id, name, "clients")
 
 @app.route("/employees/<name>", methods=["GET"])
 @token_required
 def get_employee(id, name):
+    if not is_admin(id) and not (is_employee(id) and get_name(id) == name):
+        return "Forbidden", 403
+
     return get_user(id, name, "employees")
 
 @app.route("/admins/<name>", methods=["GET"])
 @token_required
 def get_admin(id, name):
+    if not is_admin(id) or get_name(id) != name:
+        return "Forbidden", 403
+
     return get_user(id, name, "admins")
 
 def put_user(name, table, first_name, last_name, email):
@@ -402,6 +411,95 @@ def login_employee(name):
 @app.route("/admins/<name>/login", methods=["GET"])
 def login_admin(name):
     return login_user(name, "admins")
+
+def remove_user(id, table):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    transaction(cursor)
+
+    try:
+        query(cursor, f'DELETE FROM {table} WHERE id=(%s)', (id,)) 
+        query(cursor, f'DELETE FROM users WHERE id=(%s)', (id,)) 
+
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
+   
+    return "Ok", 200
+
+@app.route("/clients/<name>", methods=["DELETE"])
+@token_required
+def remove_client(id, name):
+    if not is_admin(id) and not (is_client(id) and get_name(id) == name):
+        return "Forbidden", 403
+
+    return remove_user(id, "clients")
+
+@app.route("/employees/<name>", methods=["DELETE"])
+@token_required
+def remove_employee(id, name):
+    if not is_admin(id) and not (is_employee(id) and get_name(id) == name):
+        return "Forbidden", 403
+
+    return remove_user(id, "employees")
+
+@app.route("/admins/<name>", methods=["DELETE"])
+@token_required
+def remove_admin(id, name):
+    if not is_admin(id) or get_name(id) != name:
+        return "Forbidden", 403
+
+    return remove_user(id, "admins")
+
+def update_user_email(id, email):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    transaction(cursor)
+
+    try:
+        query(cursor, 'UPDATE users SET email=(%s) WHERE id=(%s)', (email, id)) 
+
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    dbConn.close()
+    cursor.close()
+   
+    return "Ok", 200
+
+@app.route("/clients/<name>/email", methods=["PUT"])
+@token_required
+def update_client_email(id, name):
+    if not is_client(id) or get_name(id) != name:
+        return "Forbidden", 403
+
+    return update_user_email(id, request.form["email"])
+
+@app.route("/employees/<name>/email", methods=["PUT"])
+@token_required
+def update_employee_email(id, name):
+    if not is_employee(id) or get_name(id) != name:
+        return "Forbidden", 403
+
+    return update_user_email(id, request.form["email"])
+
+@app.route("/admins/<name>/email", methods=["PUT"])
+@token_required
+def update_email(id, name):
+    if not is_admin(id) or get_name(id) != name:
+        return "Forbidden", 403
+
+    return update_user_email(id, request.form["email"])
 
 @app.route("/test_login", methods=["GET"])
 @token_required
