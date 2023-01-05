@@ -4,11 +4,17 @@ import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
 
 function Customer() {
-
-    //const { username } = useParams();
+    
     const navigate = useNavigate();
 
     const username = 'johndoe'
+    //const { username } = useParams();
+
+    const [currLocation, setCurrLocation] = useState({});
+
+    useEffect(() => {
+        getLocation();
+      }, []);
 
     const [bikes, setBikes] = useState([
         {
@@ -27,19 +33,26 @@ function Customer() {
         navigate("/");
     }
 
+    const getLocation = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position);
+          const { latitude, longitude } = position.coords;
+          setCurrLocation({ latitude, longitude });
+        });
+      };
+
     //TODO: handle submit get user geolocation and suggest best route to location of selected bike
 
     return (
 
         <div id="container">
 
-            <a button onClick={home}>
+            <a button className="customer" onClick={home} style = {{cursor: 'pointer'}}>
                 Back
             </a>
 
-            <h1>Hi Customer</h1>
-
-            <h2> { username }</h2>
+            <h2>Hi Customer { username }</h2>
+            <h6>Current position: latitude { currLocation.latitude } and longitude { currLocation.longitude }</h6>
 
             <h4>Available Bikes</h4>
         
@@ -51,8 +64,9 @@ function Customer() {
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     justifyContent: 'center',
-                    width: '200px',
-                    margin: '20px',
+                    width: '100%',
+                    height: '100%',
+                    marginTop: '20px',
                     backgroundColor: 'lightgrey',
                     cursor: 'pointer',
                     }}

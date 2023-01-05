@@ -22,14 +22,14 @@ function LoginCustomer() {
         <>
             <div id="container">
 
-            <a button className="customer" onClick={home}>
+            <a button className="customer" onClick={home} style = {{cursor: 'pointer'}}>
                 Back
             </a>
 
-            <h1>Login as a Customer</h1>
+            <h2>Login as a Customer</h2>
 
             <Form onSubmit={loginCustomer} className="form">
-                <Form.Group>
+                <Form.Group>Insert Username
                     <Form.Control type="text" placeholder="Username" />
                 </Form.Group>
 

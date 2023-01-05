@@ -21,14 +21,14 @@ function LoginEmployee() {
         <>
             <div id="container">
                 
-                <a button className="customer" onClick={home}>
+                <a button className="customer" onClick={home} style = {{cursor: 'pointer'}}>
                     Back
                 </a>
                 
                 <h1>Login as an Employee</h1>
                 
                 <Form onSubmit={loginEmployee} className="form">
-                    <Form.Group>
+                    <Form.Group>Insert Username
                         <Form.Control type="text" placeholder="Username" />
                     </Form.Group>
 

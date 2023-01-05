@@ -39,7 +39,7 @@ function Home() {
             </div>
 
             <a className="customer" >
-                <button className="customer" onClick={registerCustomer}>
+                <button className="customer" onClick={registerCustomer} style={{height:50, width:200}}>
                     Register as a Customer
                 </button>
             </a>
@@ -47,7 +47,7 @@ function Home() {
             <br/>
 
             <a className="employee" >
-                <button className="employee" onClick={registerEmployee}>
+                <button className="employee" onClick={registerEmployee} style={{height:50, width:200}}>
                     Register as an Employee
                 </button>
             </a>
@@ -55,7 +55,7 @@ function Home() {
             <br/>
 
             <a className="customer" >
-                <button className="customer" onClick={loginCustomer}>
+                <button className="customer" onClick={loginCustomer} style={{height:50, width:200}}>
                     Login as a Customer
                 </button>
             </a>
@@ -63,7 +63,7 @@ function Home() {
             <br/>
             
             <a className="employee" >
-                <button className="employee" onClick={loginEmployee}>
+                <button className="employee" onClick={loginEmployee} style={{height:50, width:200}}>
                     Login as an Employee
                 </button>
             </a>
@@ -71,7 +71,7 @@ function Home() {
             <br/>
 
             <a className="employee" >
-                <button className="employee" onClick={employee}>
+                <button className="employee" onClick={employee} style={{height:50, width:200}}>
                     Employee Page
                 </button>
             </a>
@@ -79,14 +79,13 @@ function Home() {
             <br/>
 
             <a className="customer" >
-                <button className="customer" onClick={customer}>
+                <button className="customer" onClick={customer} style={{height:50, width:200}}>
                     Customer Page
                 </button>
             </a>
 
-            <p className="total-bikes">
-                Total of 20000 bikes all around Portugal
-            </p>
+            <br/>
+
         </div>
     );
 }

@@ -43,11 +43,11 @@ function RegisterCustomer() {
 
         <div id="container">
 
-            <a button className="customer" onClick={home}>
+            <a button className="customer" onClick={home} style = {{cursor: 'pointer'}}>
                 Back
             </a>
 
-            <h1>Register as a Customer</h1>
+            <h2>Register as a Customer</h2>
 
             <Form onChange={(e) => handleInputChange(e)} className="firstname">
                 <Form.Group className="[ mb-3 ] [ nm-input ]">Insert First Name 
