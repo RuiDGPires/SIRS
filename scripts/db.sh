@@ -1,3 +1,8 @@
-#!/bin/sh
+#!/bin/python3
 
-psql -d sirs -U master
+import pexpect
+
+child = pexpect.spawn("psql -d sirs -U master")
+child.expect(".+")
+child.sendline("sirsebuefixe")
+child.interact()
