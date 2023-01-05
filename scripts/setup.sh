@@ -16,3 +16,5 @@ $CWD/cert-configure $CWD/../cert/cert-db $CWD/../cert/cert-server
 $CWD/psql-configure $PG_CONF $PSQL_CONF
 $CWD/netconfig $NETWORKFILE
 $CWD/open-port.sh
+
+sudo ip route add default via 192.168.0.100
