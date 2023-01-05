@@ -8,15 +8,14 @@ const registerEmployee = async(username) => {
     // Returns SecretKey
 }
 
-const fetchLoginCustomer = async(username, oneTimePassword) => {
-    //Testing
-    const response = await fetch(baseURL);
-	console.log(response);
-	return response;
-}
-
-const loginEmployee = async(username, oneTimePassword) => {
+export const fetchLoginCustomer = async(username, oneTimePassword) => {
 
 }
 
-	module.exports = { fetchLoginCustomer };
+export const loginEmployee = async(username, oneTimePassword) => {
+
+}
+
+export const ping = async() => {
+	console.log(await fetch(baseURL));
+}

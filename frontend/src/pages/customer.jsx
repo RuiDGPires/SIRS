@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
+import { fetchLoginCustomer, ping } from "../service/service";
 
 function Customer() {
     
@@ -14,6 +15,12 @@ function Customer() {
 
     useEffect(() => {
         getLocation();
+
+	const timer = setTimeout(() => {
+		ping(); //TODO: Remove
+	}, 5000);
+
+	return () => clearTimeout(timer);
       }, []);
 
     const [bikes, setBikes] = useState([
