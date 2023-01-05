@@ -1,0 +1,12 @@
+#!/bin/sh
+
+readonly CWD=$(dirname "$0")
+
+readonly SQL=$CWD/../sql
+readonly schema=$SQL/schema.sql
+readonly populate=$SQL/populate.sql
+
+readonly PASS=sirsebuefixe
+PGPASSWORD=$PASS psql -d sirs -U master -f $schema
+PGPASSWORD=$PASS psql -d sirs -U master -f $populate
+
