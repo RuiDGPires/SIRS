@@ -15,12 +15,12 @@ function Customer() {
     useEffect(() => {
         getLocation();
 
-	const timer = setTimeout(() => {
-		ping(); //TODO: Remove
-	}, 5000);
+        const timer = setTimeout(() => {
+            ping(); //TODO: Remove
+        }, 5000);
 
-	return () => clearTimeout(timer);
-      }, []);
+        return () => clearTimeout(timer);
+    }, []);
 
     const [bikes, setBikes] = useState([
         {
