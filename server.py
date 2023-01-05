@@ -239,7 +239,7 @@ def get_employee(id, name):
 def get_admin(id, name):
     return get_user(id, name, "admins")
 
-def put_user(name, table):
+def put_user(name, table, first_name, last_name, email):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
@@ -248,7 +248,7 @@ def put_user(name, table):
     secret = pyotp.random_base32()
 
     try:
-        query(cursor, 'INSERT INTO users (secret) VALUES (%s)', (secret,)) 
+        query(cursor, 'INSERT INTO users (secret, first_name, last_name, email) VALUES (%s, %s, %s, %s)', (secret, first_name, last_name, email)) 
         res = query(cursor, 'SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users)') 
         id = res[0][0]
         query(cursor, f'INSERT INTO {table} (id, name) VALUES (%s, %s)', (id, name))
@@ -262,19 +262,18 @@ def put_user(name, table):
     cursor.close()
    
     return json.dumps({"secret": str(secret)}), 200
-    
 
 @app.route("/clients/<name>", methods=["PUT"])
 def put_client(name):
-    return put_user(name, "clients")
+    return put_user(name, "clients", request.form["first_name"], request.form["last_name"], request.form["email"])
 
 @app.route("/employees/<name>", methods=["PUT"])
 def put_employee(name):
-    return put_user(name, "employees")
+    return put_user(name, "employees", request.form["first_name"], request.form["last_name"], request.form["email"])
 
 @app.route("/admins/<name>", methods=["PUT"])
 def put_admin(name):
-    return put_user(name, "admins")
+    return put_user(name, "admins", request.form["first_name"], request.form["last_name"], request.form["email"])
 
 @app.route("/bicicles/<bike_id>/lock", methods=["GET"])
 @token_required
