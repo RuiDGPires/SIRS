@@ -9,12 +9,14 @@ const registerEmployee = async(username) => {
 }
 
 const fetchLoginCustomer = async(username, oneTimePassword) => {
-    const response = await fetch(baseURL); //Testing
-    console.log(response);
+    //Testing
+    const response = await fetch(baseURL);
+	console.log(response);
+	return response;
 }
 
 const loginEmployee = async(username, oneTimePassword) => {
 
 }
 
-module.exports = { fetchLoginCustomer };
+	module.exports = { fetchLoginCustomer };
