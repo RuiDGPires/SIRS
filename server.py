@@ -224,6 +224,30 @@ def get_n_bicicles(id, n):
 def get_bicicles(id):
     return get_n_bicicles(n=10)
 
+@app.route("/bicicles/<n>/update", methods=["PUT"])
+@token_required
+def update_bicile(id, n):
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    transaction(cursor)
+
+    try:
+        if [] == query(cursor, 'SELECT * FROM locked_bikes WHERE locked_by=(%s) AND id=(%s) FOR UPDATE', (id, int(n))):
+            return "Forbidden", 403
+        
+        query(cursor, 'UPDATE bikes SET latitude=(%s), longitude=(%s) WHERE id=(%s)', (request.form["latitude"], request.form["longitude"], int(n)))
+    except Exception as e:
+        logger.warning(str(e))
+        return "Nok", 400
+
+    commit(cursor)
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+    return "Ok", 200
+
 @app.route("/clients/<name>", methods=["GET"])
 @token_required
 def get_client(id, name):
@@ -272,19 +296,19 @@ def put_user(name, table, first_name, last_name, email):
    
     return json.dumps({"secret": str(secret)}), 200
 
-@app.route("/clients/<name>", methods=["PUT"])
+@app.route("/clients/<name>", methods=["POST"])
 def put_client(name):
     return put_user(name, "clients", request.form["first_name"], request.form["last_name"], request.form["email"])
 
-@app.route("/employees/<name>", methods=["PUT"])
+@app.route("/employees/<name>", methods=["POST"])
 def put_employee(name):
     return put_user(name, "employees", request.form["first_name"], request.form["last_name"], request.form["email"])
 
-@app.route("/admins/<name>", methods=["PUT"])
+@app.route("/admins/<name>", methods=["POST"])
 def put_admin(name):
     return put_user(name, "admins", request.form["first_name"], request.form["last_name"], request.form["email"])
 
-@app.route("/bicicles/<bike_id>/lock", methods=["GET"])
+@app.route("/bicicles/<bike_id>/lock", methods=["PUT"])
 @token_required
 def lock_bike(id, bike_id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
@@ -311,7 +335,7 @@ def lock_bike(id, bike_id):
    
     return "Ok", 200
 
-@app.route("/bicicles/<bike_id>/unlock", methods=["GET"])
+@app.route("/bicicles/<bike_id>/unlock", methods=["PUT"])
 @token_required
 def unlock_bike(id, bike_id):
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
