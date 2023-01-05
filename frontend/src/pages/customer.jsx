@@ -8,8 +8,7 @@ function Customer() {
     
     const navigate = useNavigate();
 
-    const username = 'johndoe'
-    //const { username } = useParams();
+    const { username } = useParams();
 
     const [currLocation, setCurrLocation] = useState({});
 
@@ -44,11 +43,24 @@ function Customer() {
         navigator.geolocation.getCurrentPosition((position) => {
           console.log(position);
           const { latitude, longitude } = position.coords;
-		  setCurrLocation({ latitude, longitude });
+          setCurrLocation({ latitude, longitude });
         });
       };
 
-    //TODO: handle submit get user geolocation and suggest best route to location of selected bike
+    const unlockBike  = () => {
+        //TODO: unlock bike
+        //if success: update list of bikes and reload page
+    }
+
+    const deleteCustomer  = () => {
+        //TODO: delete customer
+        //if success: return to home page
+        //navigate("/");
+    }
+
+    const editCustomer  = () => {
+        navigate("/edit-customer/" +  username );
+    }
 
     return (
 
@@ -62,6 +74,14 @@ function Customer() {
             <h6>Current position: latitude { currLocation.latitude } and longitude { currLocation.longitude }</h6>
 
             <h4>Available Bikes</h4>
+
+            <button className="customer" onClick={deleteCustomer} style={{height:50, width:200}}>
+                Delete Account
+            </button>
+
+            <button className="customer" onClick={editCustomer} style={{height:50, width:200}}>
+                Edit Account Details
+            </button>
         
             {bikes.map((Bikes, index) => {
                 return (
@@ -83,7 +103,7 @@ function Customer() {
                     longitude={Bikes.longitude}
                     />
 
-                    <Button /*onClick={()=>handleSubmit()}*/ variant="primary" type="submit" className="[ button ]" data-inline="true">
+                    <Button onClick={unlockBike} variant="primary" type="submit" className="[ button ]" data-inline="true">
                         <div className="buttonText">
                             Pay and Unlock Bike
                         </div>

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 
-function RegisterCustomer() {
+function EditEmployee() {
 
     const navigate = useNavigate();
+
+    const { username } = useParams();
 
     const home = () => {
         navigate("/");
@@ -15,7 +17,6 @@ function RegisterCustomer() {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [email, setEmail] = useState(null);
-    const [username,setUsername] = useState(null);
 
     const handleInputChange = (e) => {
         const {id , value} = e.target;
@@ -28,59 +29,48 @@ function RegisterCustomer() {
         if(id === "email"){
             setEmail(value);
         }
-        if(id === "username"){
-            setUsername(value);
-        }
 
     }
 
-    const registerCustomer  = () => {
-        console.log(firstName,lastName,email,username);
-        //TODO: criar entry
+    const editEmployee  = () => {
+        //TODO: editar entry
         //IF:user entry success
-        navigate("/customer/" + username);
+        navigate("/employee/" + username);
         //ELSE
-        //<h1>400: error creating new user employee</h1>
+        //<h1>400: error editing new user employee</h1>
     }
 
     return(
 
         <div id="container">
 
-            <a button className="customer" onClick={home} style = {{cursor: 'pointer'}}>
+            <a button className="employee" onClick={home} style = {{cursor: 'pointer'}}>
                 Back
             </a>
 
-            <h2>Register as a Customer</h2>
+            <h2>Edit Employee {username}</h2>
 
             <Form onChange={(e) => handleInputChange(e)} className="firstname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert First Name 
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Edit First Name 
                     <Form.Control type="text" placeholder="First Name" id="firstName" value={firstName}/>
                 </Form.Group>
             </Form>
 
             <Form onChange={(e) => handleInputChange(e)} className="lastname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Last Name 
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Edit Last Name 
                     <Form.Control type="text" placeholder="Last Name" id="lastName" value={lastName}/>
                 </Form.Group>
             </Form>
 
             <Form onChange={(e) => handleInputChange(e)} className="email">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert E-Mail 
+                <Form.Group className="[ mb-3 ] [ nm-input ]">Edit E-Mail 
                     <Form.Control type="text" placeholder="Email" id="email" value={email}/>
                 </Form.Group>
             </Form>
 
-            <Form onChange={(e) => handleInputChange(e)} className="username">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Username
-                    <Form.Control type="text" placeholder="Username" id="username" value={username}/>
-                </Form.Group>
-            </Form>
-
-
-            <Button onClick={registerCustomer} variant="primary" type="submit" className="[ button ]">
+            <Button onClick={editEmployee} variant="primary" type="submit" className="[ button ]">
                 <div className="buttonText">
-                    Register as a Customer
+                    Edit Account
                 </div>
             </Button>
 
@@ -89,4 +79,4 @@ function RegisterCustomer() {
     );
 }
 
-export default RegisterCustomer;
+export default EditEmployee;

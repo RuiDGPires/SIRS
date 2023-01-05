@@ -34,11 +34,11 @@ function RegisterEmployee() {
 
     }
 
-    const handleSubmit  = () => {
+    const registerEmployee  = () => {
         console.log(firstName,lastName,email,username);
         //TODO: criar entry
         //IF:user entry success
-        navigate("/employee/:" + username);
+        navigate("/employee/" + username);
         //ELSE
         //<h1>400: error creating new user employee</h1>
     }
@@ -79,7 +79,7 @@ function RegisterEmployee() {
             </Form>
 
 
-            <Button onClick={()=>handleSubmit()} variant="primary" type="submit" className="[ button ]">
+            <Button onClick={registerEmployee} variant="primary" type="submit" className="[ button ]">
                 <div className="buttonText">
                     Register as an Employee
                 </div>

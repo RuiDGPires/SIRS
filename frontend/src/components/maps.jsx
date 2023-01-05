@@ -6,10 +6,9 @@ import {
     } from '@react-google-maps/api'
     
 import { useEffect, useState } from 'react'
-
 import Button from 'react-bootstrap/Button';
 
-const Maps = (props) => {
+const Maps = (props) =>{
 
     const originRef = { lat: props.originLat, lng: props.originLng }
     const destinationRef = { lat: props.destinationLat, lng: props.destinationLng }
@@ -28,6 +27,13 @@ const Maps = (props) => {
         return <h4>Loading...</h4>
     }
 
+    if (isLoaded) {
+        console.log("loaded")
+        console.log(originRef)
+        console.log(destinationRef)
+    }
+
+
     async function calculateRoute() {
         // eslint-disable-next-line no-undef
         const directionsService = new google.maps.DirectionsService()
@@ -43,34 +49,35 @@ const Maps = (props) => {
 
 
     return isLoaded ? (
+        
         <div>
-            <div style={{ height: "90vh", width: "100%" }}>
-            <GoogleMap
-            center={center}
-            zoom={15}
-            mapContainerStyle={{ width: '100%', height: '100%' }}
-            options={{
-                zoomControl: false,
-                streetViewControl: false,
-                mapTypeControl: false,
-                fullscreenControl: false,
-            }}
-            onLoad={map => setMap(map)}
-            >
-            <Marker position={center} />
-            {directionsResponse && (
-                <DirectionsRenderer directions={directionsResponse} />
-            )}
-            </GoogleMap>
-            </div>
-
             <Button onClick={calculateRoute} variant="primary" type="submit" className="[ button ]">
                 <div className="buttonText">
-                    Show Best Route
+                    Best Route from Current Position
                 </div>
             </Button>
+            <div style={{ height: "400px", width: "100%" }}>
+                <GoogleMap
+                center={center}
+                zoom={15}
+                mapContainerStyle={{ width: '100%', height: '100%' }}
+                options={{
+                    zoomControl: false,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    fullscreenControl: false,
+                }}
+                onLoad={map => setMap(map)}
+                >
+                <Marker position={center} />
+                {directionsResponse && (
+                    <DirectionsRenderer directions={directionsResponse} />
+                )}
+                </GoogleMap>
+            </div>
         </div>
-        ) : <></>
+        ) : <><h4>Error loading maps</h4></>      
+    
 }
 
 export default Maps

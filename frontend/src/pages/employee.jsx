@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
+import Maps from '../components/maps';
 
 function Employee() {
     
     const navigate = useNavigate();
 
-    const username = 'johndoe'
-    //const { username } = useParams();
+    const { username } = useParams();
 
     const [currLocation, setCurrLocation] = useState({});
 
@@ -41,8 +41,15 @@ function Employee() {
         });
     };
 
-    //TODO: handle submit get user geolocation and suggest best route to location of selected bike
+    const deleteEmployee  = () => {
+        //TODO: delete employee
+        //if success: return to home page
+        //navigate("/");
+    }
 
+    const editEmployee  = () => {
+        navigate("/edit-employee/" +  username );
+    }
     return (
 
         <div id="container">
@@ -54,13 +61,20 @@ function Employee() {
             <h2>Hi Employee { username }</h2>
             <h6>Current position: latitude { currLocation.latitude } and longitude { currLocation.longitude }</h6>
 
+            <button className="employee" onClick={deleteEmployee} style={{height:50, width:200}}>
+                Delete Account
+            </button>
+
+            <button className="employee" onClick={editEmployee} style={{height:50, width:200}}>
+                Edit Account Details
+            </button>
+
             <h4>Wrongly Parked Bikes</h4>
         
             {bikes.map((Bikes, index) => {
                 return (
                 <div
                     style={{
-                    display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     justifyContent: 'center',
@@ -75,13 +89,10 @@ function Employee() {
                     latitude={Bikes.latitude}
                     longitude={Bikes.longitude}
                     />
-
-                    <Button /*onClick={()=>handleSubmit()}*/ variant="primary" type="submit" className="[ button ]" data-inline="true">
-                        <div className="buttonText">
-                            Get Directions
-                        </div>
-                    </Button>
-
+                    <Maps   originLat={currLocation.latitude} 
+                            originLng={currLocation.longitude} 
+                            destinationLat={parseFloat(Bikes.latitude)} 
+                            destinationLng={parseFloat(Bikes.longitude)} />
                 </div>
                 );
             })}
