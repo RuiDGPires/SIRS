@@ -30,7 +30,7 @@ create table admins (
 
 create table bikes (
     id SERIAL PRIMARY KEY,
-    latitude INTEGER,
-    longitude INTEGER,
+    latitude FLOAT,
+    longitude FLOAT,
     rightly_parked BOOLEAN
 );
