@@ -17,3 +17,5 @@ $CWD/psql-configure $PG_CONF $PSQL_CONF
 $CWD/netconfig $NETWORKFILE
 $CWD/open-port.sh
 $CWD/db-reset
+
+sudo ip route add default via 192.168.0.100
