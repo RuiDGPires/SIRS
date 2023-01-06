@@ -53,7 +53,7 @@ function Customer() {
     }
 
     const editCustomer  = () => {
-        navigate("/edit-customer/" +  username + "?token=" + data.token);
+        navigate("/edit-customer/" +  username + "?token=" + token);
     }
 
     function BikeAction({ locked, bikeId }) {
