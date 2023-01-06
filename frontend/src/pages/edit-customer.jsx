@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { updateCustomerCall } from "../service/service";
 
 
 function EditCustomer() {
@@ -10,35 +11,36 @@ function EditCustomer() {
 
     const { username } = useParams();
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [token, setToken] = useState(searchParams.get("token"));
+
     const home = () => {
         navigate("/");
     }
 
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
     const [email, setEmail] = useState(null);
 
-    const handleInputChange = (e) => {
-        const {id , value} = e.target;
-        if(id === "firstName"){
-            setFirstName(value);
-        }
-        if(id === "lastName"){
-            setLastName(value);
-        }
-        if(id === "email"){
-            setEmail(value);
-        }
-
+    const editCustomerUI  = (event) => {
+        event.preventDefault();
+        const _email = event.target[0].value;
+        setEmail(_email);
+        setSubmitted(true);
     }
 
-    const editCustomer  = () => {
-        //TODO: editar entry
-        //IF:user entry success
-        navigate("/customer/" +  username);
-        //ELSE
-        //<h1>400: error editing new user customer</h1>
-    }
+    useEffect(() => {
+        if (submitted) {
+            updateCustomerCall(username, token, email)
+            .then(data => data.json())
+            .then(data => {
+                setSubmitted(false);
+                // Navigate?
+            })
+            .catch(error => {
+                setSubmitted(false);
+            });
+        }
+    })
 
     return(
 
@@ -50,30 +52,17 @@ function EditCustomer() {
 
             <h2>Edit Customer {username}</h2>
 
-            <Form onChange={(e) => handleInputChange(e)} className="firstname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert First Name 
-                    <Form.Control type="text" placeholder="First Name" id="firstName" value={firstName}/>
+            <Form onSubmit={editCustomerUI}>
+                <Form.Group>Insert E-Mail 
+                    <Form.Control type="text" placeholder="Email" id="email"/>
                 </Form.Group>
+
+                <Button variant="primary" type="submit" className="[ button ]">
+                    <div className="buttonText">
+                        Update email
+                    </div>
+                </Button>
             </Form>
-
-            <Form onChange={(e) => handleInputChange(e)} className="lastname">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert Last Name 
-                    <Form.Control type="text" placeholder="Last Name" id="lastName" value={lastName}/>
-                </Form.Group>
-            </Form>
-
-            <Form onChange={(e) => handleInputChange(e)} className="email">
-                <Form.Group className="[ mb-3 ] [ nm-input ]">Insert E-Mail 
-                    <Form.Control type="text" placeholder="Email" id="email" value={email}/>
-                </Form.Group>
-            </Form>
-
-            <Button onClick={editCustomer} variant="primary" type="submit" className="[ button ]">
-                <div className="buttonText">
-                    Edit Account
-                </div>
-            </Button>
-
         </div>
        
     );
