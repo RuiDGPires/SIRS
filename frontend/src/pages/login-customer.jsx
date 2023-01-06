@@ -23,9 +23,8 @@ function LoginCustomer() {
                 .then(data => data.json())
                 .then(data => {
                     setSubmitted(false);
-                    // TODO: get token
                     console.log(data);
-                    navigate("/customer/" + userName);
+                    navigate("/customer/" + userName + "?token=" + data.token);
                 })
                 .catch(error => {
                     setSubmitted(false);

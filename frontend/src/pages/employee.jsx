@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
 import Maps from '../components/maps';
@@ -9,6 +9,9 @@ function Employee() {
     const navigate = useNavigate();
 
     const { username } = useParams();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams.get("token"))
 
     const [currLocation, setCurrLocation] = useState({});
 

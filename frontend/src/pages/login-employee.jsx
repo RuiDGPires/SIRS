@@ -22,9 +22,8 @@ function LoginEmployee() {
                 .then(data => data.json())
                 .then(data => {
                     setSubmitted(false);
-                    // TODO: get token
                     console.log(data);
-                    navigate("/employee/" + userName);
+                    navigate("/employee/" + userName + "?token=" + data.token);
                 })
                 .catch(error => {
                     setSubmitted(false);
