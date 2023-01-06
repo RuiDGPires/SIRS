@@ -8,10 +8,6 @@ Default settings
 #### vm disk image name: VM1.ova
 login user: `rui`
 
-##### Install git
-```sh
-sudo yum install git
-```
 ##### Configure the nat interface to start on boot
 ```sh
 sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
@@ -19,11 +15,16 @@ sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
 Where it says:\
 `ONBOOT=no`\
 Write\
-`ONBOOT=yes`\
+`ONBOOT=yes`
 
 Then save, quit and reboot
 ```sh
 sudo reboot now
+```
+
+##### Install git
+```sh
+sudo yum install git
 ```
 
 ##### Open terminal and pull remote repository from github
@@ -169,6 +170,19 @@ Type: Linux
 Distribution: CentOS-7-x86_64-Minimal-2009
 Default settings
 
+##### Configure the nat interface to start on boot
+```sh
+sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
+```
+Where it says:\
+`ONBOOT=no`\
+Write\
+`ONBOOT=yes`
+
+Then save, quit and reboot
+```sh
+sudo reboot now
+```
 ##### Install git
 ```sh
 sudo yum install git
