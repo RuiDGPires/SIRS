@@ -58,9 +58,16 @@ function Customer() {
     }
 
     function BikeAction({ locked, bikeId }) {
+        function _lockBike() {
+            lockBike(bikeId);
+        }
+
+        function _unlockBike() {
+            unlockBike(bikeId)
+        }
         if (locked) {
             return (
-                <Button onClick={unlockBike(bikeId)} variant="primary" type="submit" className="[ button ]" data-inline="true">
+                <Button onClick={_unlockBike} variant="primary" type="submit" className="[ button ]" data-inline="true">
                     <div className="buttonText">
                         Pay and Unlock Bike
                     </div>
@@ -68,7 +75,7 @@ function Customer() {
             );
         } else {
             return (
-                <Button onClick={lockBike(bikeId)} variant="primary" type="submit" className="[ button ]" data-inline="true">
+                <Button onClick={_lockBike} variant="primary" type="submit" className="[ button ]" data-inline="true">
                     <div className="buttonText">
                         Lock Bike
                     </div>
