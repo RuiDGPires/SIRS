@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { registerEmployee } from "../service/service";
 
 
 function RegisterEmployee() {
@@ -92,7 +93,7 @@ function RegisterEmployee() {
 
                 <Button variant="primary" type="submit" className="[ button ]">
                     <div className="buttonText">
-                        Register as a Customer
+                        Register as an Employee
                     </div>
                 </Button>
             </Form>
