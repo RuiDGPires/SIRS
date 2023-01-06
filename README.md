@@ -6,7 +6,7 @@ Version: Red Hat (64-bit)
 Distribution: CentOS
 Default settings
 #### filehash:
-#### vm disk image name: 
+#### vm disk image name: VM1.ova
 login user: `rui`
 
 ##### Open terminal and pull remote repository from github
@@ -82,7 +82,7 @@ If the certificate is changed, the nginx.conf will also probably need to be chan
 
 ## SetUp VM2 - Firewall 
 #### filehash:
-#### vm disk image name:
+#### vm disk image name: VM2.ova
 For this machine it was used the setup provided in the labs of SIRS:
 https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
 
@@ -152,7 +152,7 @@ TODO
 
 ## SetUp VM3 - DatabaseServer 
 #### filehash:
-#### vm disk image name:
+#### vm disk image name: VM3.ova
 login user: `rui`
 Type: Linux
 Version: Red Hat (64-bit)
@@ -206,7 +206,7 @@ Usar a pass: **sirsebuefixe**
 
 ## SetUp VM4 - Frontend 
 #### filehash:
-#### vm disk image name:
+#### vm disk image name: VM4.ova
 For this machine it was used the setup provided in the labs of SIRS:
 https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
 
