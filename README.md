@@ -225,6 +225,10 @@ Run
 ./scripts/setup.sh --skip-install
 ```
 
+##### Setup postgres and create the Database
+
+After setting up the postgres service, run the 'sql/create.sql' to create the database
+
 ##### Reset the Database
 
 Usar a pass: **sirsebuefixe**
