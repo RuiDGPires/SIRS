@@ -7,7 +7,13 @@ import { registerCustomer } from "../service/service";
 
 function RegisterCustomer() {
 	
-	const [secret, setSecret] = useState();
+	const [secret, setSecret] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [userName, setUserName] = useState();
 
     const navigate = useNavigate();
 
@@ -17,24 +23,36 @@ function RegisterCustomer() {
 
 	useEffect(() => {
 		console.log(secret);
+        if (submitted) {
+            registerCustomer(firstName, lastName, email, userName)
+            .then(data => data.json())
+            .then(data => {
+                setSecret(data.secret);
+                setSuccess(true);
+                setSubmitted(false);
+            })
+            .catch(error => {
+                setSecret(null);
+                setSuccess(false);
+                setSubmitted(false);
+            });
+        }
 	});
 
     const registerCustomerUI  = (event) => {
-        const firstName = event.target[0].value;
-        const lastName = event.target[1].value;
-        const email = event.target[2].value;
-        const username = event.target[3].value;
+        event.preventDefault();
+        const _firstName = event.target[0].value;
+        const _lastName = event.target[1].value;
+        const _email = event.target[2].value;
+        const _username = event.target[3].value;
         console.log(firstName,lastName,email,username);
-        registerCustomer(firstName, lastName, email, username)
-		.then(data => data.json)
-		.then(data => {
-			setSecret(data.secret);
-	});
-        //TODO: criar entry
-        //IF:user entry success
-        //ELSE
-        //<h1>400: error creating new user employee</h1>
-    }
+        setFirstName(_firstName);
+        setLastName(_lastName);
+        setEmail(_email);
+        setUserName(_username);
+        setSubmitted(true);
+        setSuccess(null);
+	}
 
     return(
 
@@ -69,6 +87,15 @@ function RegisterCustomer() {
                     </div>
                 </Button>
             </Form>
+
+            { () => {
+                    if (success == true) {
+                        return (<h1>{secret}</h1>);
+                    } else {
+                        return (<h1>Failure</h1>);
+                    }
+                }
+            }
         </div>
        
     );
