@@ -1,14 +1,13 @@
 const baseURL = "https://192.168.1.1";
 
-export const registerCustomer = async(userName, firstName, lastName, email) => {
+export const registerCustomer = async(firstName, lastName, email, userName) => {
+	const data = new URLSearchParams();
+	data.append("first_name", firstName);
+	data.append("last_name", lastName);
+	data.append("email", email);
     const response = await fetch(baseURL + `/clients/` + userName, {
         method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            "first_name": firstName,
-            "last_name": lastName,
-            "email": email
-        }),
+        body: data
     });
 
     console.log(response);

@@ -14,15 +14,15 @@ function RegisterCustomer() {
     }
 
     const registerCustomerUI  = (event) => {
-        let firstName = event.target[0].value;
-        let lastName = event.target[1].value;
-        let email = event.target[2].value;
-        let username = event.target[3].value;
+        const firstName = event.target[0].value;
+        const lastName = event.target[1].value;
+        const email = event.target[2].value;
+        const username = event.target[3].value;
         console.log(firstName,lastName,email,username);
         registerCustomer(firstName, lastName, email, username);
+	navigate("/customer/" + username);
         //TODO: criar entry
         //IF:user entry success
-        navigate("/customer/" + username);
         //ELSE
         //<h1>400: error creating new user employee</h1>
     }
@@ -39,19 +39,19 @@ function RegisterCustomer() {
 
             <Form onSubmit={registerCustomerUI} className="firstname">
                 <Form.Group>Insert First Name 
-                    <Form.Control type="text" placeholder="First Name" id="firstName" value={firstName}/>
+                    <Form.Control type="text" placeholder="First Name" id="firstName"/>
                 </Form.Group>
 
                 <Form.Group>Insert Last Name 
-                    <Form.Control type="text" placeholder="Last Name" id="lastName" value={lastName}/>
+                    <Form.Control type="text" placeholder="Last Name" id="lastName"/>
                 </Form.Group>
 
                 <Form.Group>Insert E-Mail 
-                    <Form.Control type="text" placeholder="Email" id="email" value={email}/>
+                    <Form.Control type="text" placeholder="Email" id="email"/>
                 </Form.Group>
 
                 <Form.Group>Insert Username
-                    <Form.Control type="text" placeholder="Username" id="username" value={username}/>
+                    <Form.Control type="text" placeholder="Username" id="username"/>
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="[ button ]">
