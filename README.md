@@ -12,6 +12,19 @@ login user: `rui`
 ```sh
 sudo yum install git
 ```
+##### Configure the nat interface to start on boot
+```sh
+sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
+```
+Where it says:\
+`ONBOOT=no`\
+Write\
+`ONBOOT=yes`\
+
+Then save, quit and reboot
+```sh
+sudo reboot now
+```
 
 ##### Open terminal and pull remote repository from github
 Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
