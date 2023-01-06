@@ -21,22 +21,22 @@ function Customer() {
         listBikes(token)
             .then(data => data.json())
             .then(data => {
-                // setBikes(data.bikes);
+                setBikes(data);
             })
     }, []);
 
-    const [bikes, setBikes] = useState([
-        {
-            bikeID: 'b03',
-            latitude: '38.754255',
-            longitude: '-9.187130',
-        },
-        {
-            bikeID: 'b04',
-            latitude: '38.710411',
-            longitude: '-9.146640',
-        },
-    ]);
+    const [bikes, setBikes] = useState([]);
+
+    /* {
+        bikeID: 'b03',
+        latitude: '38.754255',
+        longitude: '-9.187130',
+    },
+    {
+        bikeID: 'b04',
+        latitude: '38.710411',
+        longitude: '-9.146640',
+    }, */
 
     const home = () => {
         navigate("/");
