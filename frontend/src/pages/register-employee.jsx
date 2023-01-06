@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { registerEmployee } from "../service/service";
+import QRCode from "react-qr-code";
 
 
 function RegisterEmployee() {
@@ -56,7 +57,9 @@ function RegisterEmployee() {
 
 	function Success(){
 		if (success == true) {
-			return (<h1>{secret}</h1>);
+			return (
+                <QRCode value={"otpauth://totp/" + userName + "?secret=" + secret} />
+            );
 		} else if (success == false) {
 			return (<h1>FAILURE</h1>);
 		}
