@@ -1,6 +1,10 @@
 # README
 
 ## SetUp VM1 - ApplicationServer 
+Type: Linux
+Version: Red Hat (64-bit)
+Distribution: CentOS
+Default settings
 #### filehash:
 #### vm disk image name: 
 login user: `rui`
@@ -85,6 +89,10 @@ If the certificate is changed, the nginx.conf will also probably need to be chan
 #### filehash:
 #### vm disk image name:
 login user: `rui`
+Type: Linux
+Version: Red Hat (64-bit)
+Distribution: CentOS
+Default settings
 
 ##### Open terminal and pull remote repository from github
 Clone repository https://github.com/RuiDGPires/SIRS.git
