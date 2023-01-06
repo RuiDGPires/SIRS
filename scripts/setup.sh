@@ -11,6 +11,7 @@ if [ ! "$1" = "--skip-install" ]; then
 	
 
 	sudo pip3 install flask
+	sudo pip3 install -U flask-cors
 	sudo pip3 install pyotp
 	sudo pip3 install psycopg2-binary
 	sudo pip3 install psycopg2
@@ -25,3 +26,5 @@ readonly NGINXFILE=$CWD/../nginx.conf
 
 $CWD/netconfig $NETWORKFILE
 $CWD/nginx-configure $NGINXFILE
+
+sudo ip route add default via 192.168.1.254
