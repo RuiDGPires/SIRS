@@ -2,9 +2,12 @@
 
 ## SetUp VM1 - ApplicationServer 
 Type: Linux
+
 Distribution: CentOS-7-x86_64-Minimal-2009
-Default settings
-#### filehash: 1d1245b5d24aa28187330606b94841e646930a1c6931b272587241a3dbdd849c
+
+Default settings of oracle virtualbox
+
+#### filehash: 
 #### vm disk image name: VM1.ova
 login user: `rui`
 
@@ -28,7 +31,7 @@ sudo yum install git
 ```
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `server` was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
@@ -153,22 +156,21 @@ To save the current rules again, do:
 $ sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
 ```
 
-##### Each time the machine is initialized do
-```bash
-sudo iptables -t nat -F            
-sudo iptables -t nat -A POSTROUTING  -o enp0s9 -j MASQUERADE    
+##### Each time the machine is initialized do 
+Setup firewall
+```sh
 ```
 
-##### To set up the firewall
-TODO
-
 ## SetUp VM3 - DatabaseServer 
-#### filehash: 2a3ed8ad91e80849a0a8448c726ff22e6e046b5828db8f8d1dbc872eadcde15d
+#### filehash: 
 #### vm disk image name: VM3.ova
 login user: `rui`
+
 Type: Linux
+
 Distribution: CentOS-7-x86_64-Minimal-2009
-Default settings
+
+Default settings of oracle virtualbox
 
 ##### Configure the nat interface to start on boot
 ```sh
@@ -189,7 +191,7 @@ sudo yum install git
 ```
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `database` was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
@@ -269,7 +271,7 @@ $ sudo netplan try
 $ sudo netplan apply
 ```
 
-##### One the virtual machine is up do the frontend setup
+##### Once the virtual machine is up do the frontend setup
 
 ```sh
 sudo apt update
