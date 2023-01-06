@@ -51,6 +51,25 @@ export const registerEmployee = async(firstName, lastName, email, userName) => {
     return response;
 }
 
+export const updateEmployeeCall = async(username, token, newEmail) => {
+    const data = new URLSearchParams();
+    data.append("email", newEmail);
+    const response = await fetch(baseURL + "/employees/" + username + "/email?token=" + token, {
+        method: "PUT",
+        body: data
+    });
+
+    return response;
+}
+
+export const deleteEmployeeCall = async(username, token) => {
+    const response = await fetch(baseURL + "/employees/" + username + "?token=" + token, {
+        method: "DELETE"
+    });
+
+    return response;
+}
+
 
 export const loginEmployee = async(username, oneTimePassword) => {
     const response = await fetch(baseURL + '/employees/' + username + '/login?otp=' + oneTimePassword);

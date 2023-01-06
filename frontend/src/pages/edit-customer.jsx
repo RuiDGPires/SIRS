@@ -34,7 +34,6 @@ function EditCustomer() {
             .then(data => data.json())
             .then(data => {
                 setSubmitted(false);
-                // Navigate?
             })
             .catch(error => {
                 setSubmitted(false);

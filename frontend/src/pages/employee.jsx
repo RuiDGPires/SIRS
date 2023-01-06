@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
 import Maps from '../components/maps';
-import { listBikes } from "../service/service";
+import { deleteEmployeeCall, listBikes } from "../service/service";
 
 function Employee() {
     
@@ -41,13 +41,12 @@ function Employee() {
     };
 
     const deleteEmployee  = () => {
-        //TODO: delete employee
-        //if success: return to home page
-        //navigate("/");
+        deleteEmployeeCall(username, token);
+        home();
     }
 
     const editEmployee  = () => {
-        navigate("/edit-employee/" +  username );
+        navigate("/edit-employee/" +  username + "?token=" + token);
     }
     return (
 
