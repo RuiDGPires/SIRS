@@ -45,13 +45,23 @@ function RegisterCustomer() {
         const _lastName = event.target[1].value;
         const _email = event.target[2].value;
         const _username = event.target[3].value;
-        console.log(firstName,lastName,email,username);
+        console.log(_firstName,_lastName,_email,_username);
         setFirstName(_firstName);
         setLastName(_lastName);
         setEmail(_email);
         setUserName(_username);
         setSubmitted(true);
         setSuccess(null);
+	}
+
+	function Success(){
+		if (success == true) {
+			return (<h1>{secret}</h1>);
+		} else if (success == false) {
+			return (<h1>FAILURE</h1>);
+		}
+
+		return (<></>);
 	}
 
     return(
@@ -88,14 +98,7 @@ function RegisterCustomer() {
                 </Button>
             </Form>
 
-            { () => {
-                    if (success == true) {
-                        return (<h1>{secret}</h1>);
-                    } else {
-                        return (<h1>Failure</h1>);
-                    }
-                }
-            }
+            <Success />
         </div>
        
     );
