@@ -83,7 +83,72 @@ If the certificate is changed, the nginx.conf will also probably need to be chan
 ## SetUp VM2 - Firewall 
 #### filehash:
 #### vm disk image name:
+For this machine it was used the setup provided in the labs of SIRS:
+https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
 
+Now,
+- Select the VM Settings/Network/Adapter1
+- Attach to `Internal Network`. Call it sw-1
+- Promiscuous Mode: Allow VMs
+
+Repeat for VM2 and VM3 but creating a second Network adapter in VM2 and calling the `Internal Network` sw-2.
+
+Finally, create a third Network adapter in VM2 that is `nat`-ed with your physical address. 
+This interface will be used to access the Internet.
+##### After setting up following the above instructions
+
+You have to edit the corresponding `/etc/netplan/01-network-manager-all.yaml`
+
+```
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:
+          addresses:
+              - 192.168.1.254/24
+      enp0s8:
+          addresses:
+              - 192.168.0.100/24
+      enp0s9:
+          dhcp4: true
+          addresses:
+              - 192.168.2.254/24
+```
+
+After editing the file run:
+
+```bash
+$ sudo netplan try
+$ sudo netplan apply
+```
+
+You should also enable IP forwarding permanently on VM2. For that you need to edit `/etc/sysctl.conf` and uncomment the following line
+
+```bash
+net.ipv4.ip_forward=1
+```
+
+To make the iptables rules persistent, in VM2 install (select "yes" to save the current rules):
+
+```bash
+$ sudo apt install iptables-persistent
+```
+To save the current rules again, do:
+```bash
+# FOR IPv4
+$ sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+```
+
+##### Each time the machine is initialized do
+```bash
+sudo iptables -t nat -F            
+sudo iptables -t nat -A POSTROUTING  -o enp0s9 -j MASQUERADE    
+```
+
+##### To set up the firewall
+TODO
 
 ## SetUp VM3 - DatabaseServer 
 #### filehash:
@@ -142,7 +207,40 @@ Usar a pass: **sirsebuefixe**
 ## SetUp VM4 - Frontend 
 #### filehash:
 #### vm disk image name:
-##### Setup
+For this machine it was used the setup provided in the labs of SIRS:
+https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
+
+Now,
+- Select the VM Settings/Network/Adapter1
+- Attach to `Internal Network`. Call it sw-1
+- Promiscuous Mode: Allow VMs
+
+##### After setting up following the above instructions
+
+You have to edit the corresponding `/etc/netplan/01-network-manager-all.yaml`
+
+```
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:
+          addresses:
+              - 192.168.1.2/24
+          routes:
+              - to: 0.0.0.0/0
+                via: 192.168.1.254
+```
+
+After editing the file run:
+
+```bash
+$ sudo netplan try
+$ sudo netplan apply
+```
+
+##### One the virtual machine is up do the frontend setup
 
 ```sh
 sudo apt update
