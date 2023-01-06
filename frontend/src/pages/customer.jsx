@@ -77,7 +77,8 @@ function Customer() {
 
         
             {bikes.map((Bikes, index) => {
-                return (
+               	console.log(Bikes.locked);
+		return (
                 <div
                     style={{
                     display: 'flex',

@@ -7,7 +7,7 @@ const ListBikes = (props) => {
       <div>Parked at location:</div>
       <div>Latitude: {props.latitude}</div>
       <div>Longitude: {props.longitude}</div>
-      <div>Locked: {props.locked}</div>
+      <div>Locked: {props.locked ? "TRUE" : "FALSE"}</div>
     </div>
   );
 };
