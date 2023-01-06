@@ -8,6 +8,11 @@ Default settings
 #### vm disk image name: VM1.ova
 login user: `rui`
 
+##### Install git
+```sh
+sudo yum install git
+```
+
 ##### Open terminal and pull remote repository from github
 Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
 ```sh
@@ -150,6 +155,11 @@ login user: `rui`
 Type: Linux
 Distribution: CentOS-7-x86_64-Minimal-2009
 Default settings
+
+##### Install git
+```sh
+sudo yum install git
+```
 
 ##### Open terminal and pull remote repository from github
 Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
