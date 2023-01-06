@@ -19,7 +19,7 @@ Check if directory SIRS was created and try to access
 cd SIRS
 ```
 
-Move to database branch
+Move to server branch
 ```sh
 git checkout server
 ```
