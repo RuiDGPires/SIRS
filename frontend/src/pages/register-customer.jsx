@@ -6,6 +6,8 @@ import { registerCustomer } from "../service/service";
 
 
 function RegisterCustomer() {
+	
+	const [secret, setSecret] = useState();
 
     const navigate = useNavigate();
 
@@ -13,14 +15,21 @@ function RegisterCustomer() {
         navigate("/");
     }
 
+	useEffect(() => {
+		console.log(secret);
+	});
+
     const registerCustomerUI  = (event) => {
         const firstName = event.target[0].value;
         const lastName = event.target[1].value;
         const email = event.target[2].value;
         const username = event.target[3].value;
         console.log(firstName,lastName,email,username);
-        registerCustomer(firstName, lastName, email, username);
-	navigate("/customer/" + username);
+        registerCustomer(firstName, lastName, email, username)
+		.then(data => data.json)
+		.then(data => {
+			setSecret(data.secret);
+	});
         //TODO: criar entry
         //IF:user entry success
         //ELSE

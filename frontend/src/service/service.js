@@ -10,8 +10,6 @@ export const registerCustomer = async(firstName, lastName, email, userName) => {
         body: data
     });
 
-    console.log(response);
-
     return response;
 }
 
