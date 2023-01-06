@@ -34,7 +34,9 @@ export const registerEmployee = async(firstName, lastName, email, userName) => {
 
 
 export const loginEmployee = async(username, oneTimePassword) => {
-    // TODO
+    const response = await fetch(baseURL + '/employees/' + username + '/login?otp=' + oneTimePassword);
+
+    return response;
 }
 
 export const ping = async() => {
