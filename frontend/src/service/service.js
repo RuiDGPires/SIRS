@@ -19,6 +19,22 @@ export const loginCustomer = async(username, oneTimePassword) => {
     return response;
 }
 
+export const updateCustomer = async(username, token, newEmail) => {
+    const data = new URLSearchParams();
+    data.append("email", newEmail);
+    const response = await fetch(baseURL + "/clients/" + username + "/email?token=" + token, {
+        method: "PUT",
+        body: data
+    });
+
+    return response;
+}
+
+export const deleteCustomer = async() => {
+    // DELETE
+    // clients/:username:?token= 
+}
+
 export const registerEmployee = async(firstName, lastName, email, userName) => {
 	const data = new URLSearchParams();
 	data.append("first_name", firstName);
