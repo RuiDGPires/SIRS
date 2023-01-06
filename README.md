@@ -3,7 +3,7 @@
 ## SetUp VM1 - ApplicationServer 
 Type: Linux
 Version: Red Hat (64-bit)
-Distribution: CentOS
+Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86_64
 Default settings
 #### filehash:
 #### vm disk image name: VM1.ova
@@ -156,7 +156,7 @@ TODO
 login user: `rui`
 Type: Linux
 Version: Red Hat (64-bit)
-Distribution: CentOS
+Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86_64
 Default settings
 
 ##### Open terminal and pull remote repository from github
