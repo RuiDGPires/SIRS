@@ -10,7 +10,7 @@ Default settings
 login user: `rui`
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `server` was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
@@ -162,7 +162,7 @@ Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86
 Default settings
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `database` was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
