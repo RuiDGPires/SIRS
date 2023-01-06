@@ -93,7 +93,7 @@ Now,
 - Attach to `Internal Network`. Call it sw-1
 - Promiscuous Mode: Allow VMs
 
-Repeat for VM2 and VM3 but creating a second Network adapter in VM2 and calling the `Internal Network` sw-2.
+Repeat but creating a second Network adapter in VM2 and calling the `Internal Network` sw-2.
 
 Finally, create a third Network adapter in VM2 that is `nat`-ed with your physical address. 
 This interface will be used to access the Internet.
