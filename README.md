@@ -7,7 +7,6 @@ Distribution: CentOS-7-x86_64-Minimal-2009
 
 Default settings of oracle virtualbox
 
-#### filehash: 
 #### vm disk image name: VM1.ova
 login user: `rui`
 
@@ -96,7 +95,6 @@ tmux attach
 ```
 
 ## SetUp VM2 - Firewall 
-#### filehash:
 #### vm disk image name: VM2.ova
 For this machine it was used the setup provided in the labs of SIRS:
 https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
@@ -127,7 +125,6 @@ network:
           addresses:
               - 192.168.0.100/24
       enp0s9:
-          dhcp4: true
           addresses:
               - 192.168.2.254/24
 ```
@@ -156,13 +153,18 @@ To save the current rules again, do:
 $ sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
 ```
 
-##### Each time the machine is initialized do 
+Copy folder firewall, inside the folder SIRS of the zip file into the virtual machine and then access it
+```sh
+cd pathTo/firewall
+```
+
+##### Under the frontend directory, run the script
 Setup firewall
 ```sh
+./setup.sh
 ```
 
 ## SetUp VM3 - DatabaseServer 
-#### filehash: 
 #### vm disk image name: VM3.ova
 login user: `rui`
 
@@ -240,7 +242,6 @@ Usar a pass: **sirsebuefixe**
 ```
 
 ## SetUp VM4 - Frontend 
-#### filehash:
 #### vm disk image name: VM4.ova
 For this machine it was used the setup provided in the labs of SIRS:
 https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
@@ -271,8 +272,13 @@ network:
 After editing the file run:
 
 ```bash
-$ sudo netplan try
-$ sudo netplan apply
+sudo netplan try
+sudo netplan apply
+```
+
+May be needed to force:
+```bash
+sudo ip route add default via 192.168.1.254  
 ```
 
 ##### Once the virtual machine is up do the frontend setup
@@ -326,3 +332,8 @@ npm install
 ```sh
 npm run start
 ```
+
+## SetUp VM5 - User 
+To mock the user input, a new VM was created under the network 192.168.2.0/24.
+Once all the other VM's are running, first the user must access `https://192.168.1.1/` and trusts the certificate.
+Then, the user goes to `http://192.168.2.254/` and can now access the website Lemon.
