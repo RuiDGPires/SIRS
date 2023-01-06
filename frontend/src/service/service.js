@@ -30,9 +30,12 @@ export const updateCustomer = async(username, token, newEmail) => {
     return response;
 }
 
-export const deleteCustomer = async() => {
-    // DELETE
-    // clients/:username:?token= 
+export const deleteCustomer = async(username, token) => {
+    const response = await fetch(baseURL + "/clients/" + username + "?token=" + token, {
+        method: "DELETE"
+    });
+
+    return response;
 }
 
 export const registerEmployee = async(firstName, lastName, email, userName) => {
