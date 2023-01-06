@@ -11,7 +11,7 @@ function Employee() {
     const { username } = useParams();
 
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams.get("token"))
+    const [token, setToken] = useState(searchParams.get("token"));
 
     const [currLocation, setCurrLocation] = useState({});
 

@@ -39,6 +39,12 @@ export const loginEmployee = async(username, oneTimePassword) => {
     return response;
 }
 
+export const listBikes = async(token) => {
+    const response = await fetch(baseURL + "/bicicles/list?token=" + token);
+
+    return response;
+}
+
 export const ping = async() => {
 	console.log(await fetch(baseURL));
 }

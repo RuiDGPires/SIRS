@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
-import { fetchLoginCustomer, ping } from "../service/service";
+import { listBikes, ping } from "../service/service";
 
 function Customer() {
     
@@ -10,16 +10,19 @@ function Customer() {
 
     const { username } = useParams();
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [token, setToken] = useState(searchParams.get("token"));
+
     const [currLocation, setCurrLocation] = useState({});
 
     useEffect(() => {
         getLocation();
 
-        const timer = setTimeout(() => {
-            ping(); //TODO: Remove
-        }, 5000);
-
-        return () => clearTimeout(timer);
+        listBikes(token)
+            .then(data => data.json())
+            .then(data => {
+                // setBikes(data.bikes);
+            })
     }, []);
 
     const [bikes, setBikes] = useState([
@@ -73,8 +76,6 @@ function Customer() {
             <h2>Hi Customer { username }</h2>
             <h6>Current position: latitude { currLocation.latitude } and longitude { currLocation.longitude }</h6>
 
-            <h4>Available Bikes</h4>
-
             <button className="customer" onClick={deleteCustomer} style={{height:50, width:200}}>
                 Delete Account
             </button>
@@ -82,6 +83,9 @@ function Customer() {
             <button className="customer" onClick={editCustomer} style={{height:50, width:200}}>
                 Edit Account Details
             </button>
+
+            <h4>Available Bikes</h4>
+
         
             {bikes.map((Bikes, index) => {
                 return (
