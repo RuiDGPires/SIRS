@@ -19,7 +19,7 @@ export const loginCustomer = async(username, oneTimePassword) => {
     return response;
 }
 
-export const updateCustomer = async(username, token, newEmail) => {
+export const updateCustomerCall = async(username, token, newEmail) => {
     const data = new URLSearchParams();
     data.append("email", newEmail);
     const response = await fetch(baseURL + "/clients/" + username + "/email?token=" + token, {
@@ -30,7 +30,7 @@ export const updateCustomer = async(username, token, newEmail) => {
     return response;
 }
 
-export const deleteCustomer = async(username, token) => {
+export const deleteCustomerCall = async(username, token) => {
     const response = await fetch(baseURL + "/clients/" + username + "?token=" + token, {
         method: "DELETE"
     });

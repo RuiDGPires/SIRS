@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
-import { listBikes, lockBikeCall, unlockBikeCall } from "../service/service";
+import { deleteCustomerCall, listBikes, lockBikeCall, unlockBikeCall } from "../service/service";
 
 function Customer() {
     
@@ -48,13 +48,12 @@ function Customer() {
     }
 
     const deleteCustomer  = () => {
-        //TODO: delete customer
-        //if success: return to home page
-        //navigate("/");
+        deleteCustomerCall(username, token);
+        home();
     }
 
     const editCustomer  = () => {
-        navigate("/edit-customer/" +  username );
+        navigate("/edit-customer/" +  username + "?token=" + data.token);
     }
 
     function BikeAction({ locked, bikeId }) {
