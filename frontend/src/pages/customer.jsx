@@ -27,17 +27,6 @@ function Customer() {
 
     const [bikes, setBikes] = useState([]);
 
-    /* {
-        bikeID: 'b03',
-        latitude: '38.754255',
-        longitude: '-9.187130',
-    },
-    {
-        bikeID: 'b04',
-        latitude: '38.710411',
-        longitude: '-9.146640',
-    }, */
-
     const home = () => {
         navigate("/");
     }
@@ -102,7 +91,7 @@ function Customer() {
                     cursor: 'pointer',
                     }}
                     key={index}>
-                    <ListBikes key={index} bikeID={Bikes.bikeID} 
+                    <ListBikes key={index} bikeID={Bikes.id} 
                     latitude={Bikes.latitude}
                     longitude={Bikes.longitude}
                     />

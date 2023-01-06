@@ -17,20 +17,15 @@ function Employee() {
 
     useEffect(() => {
         getLocation();
-      }, []);
 
-    const [bikes, setBikes] = useState([
-        {
-            bikeID: 'b01',
-            latitude: '38.754240',
-            longitude: '-9.187130',
-        },
-        {
-            bikeID: 'b02',
-            latitude: '38.710411',
-            longitude: '-9.146660',
-        },
-    ]);
+        listBikes(token)
+            .then(data => data.json())
+            .then(data => {
+                setBikes(data);
+            })
+    }, []);
+
+    const [bikes, setBikes] = useState([]);
 
     const home = () => {
         navigate("/");
@@ -88,7 +83,7 @@ function Employee() {
                     cursor: 'pointer',
                     }}
                     key={index}>
-                    <ListBikes key={index} bikeID={Bikes.bikeID} 
+                    <ListBikes key={index} bikeID={Bikes.id} 
                     latitude={Bikes.latitude}
                     longitude={Bikes.longitude}
                     />
