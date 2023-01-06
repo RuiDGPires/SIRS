@@ -30,9 +30,11 @@ Pull to database branch
 git pull
 ```
 
-##### Once the vm is running, inside the SIRS folder first time setup
+Note: trace logs present in such directory
 
-Firstly, install the needed packages and tools **(se faltar alguma coisa, adicionem neste script)**
+##### Once the vm is running go to `SIRS` folder `ls` and `cd SIRS`. And inside the SIRS folder: first time setup
+
+Firstly, install the needed packages and tools
 ```sh
 ./scripts/setup.sh
 ```
@@ -179,8 +181,8 @@ Pull to database branch
 ```sh
 git pull
 ```
-
-##### One the vm is running, inside the SIRS folder first time setup
+Note: trace logs present in such directory
+##### Once the vm is running go to `SIRS` folder `ls` and `cd SIRS`. And inside the SIRS folder: first time setup
 
 Run
 
