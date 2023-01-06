@@ -5,7 +5,7 @@ Type: Linux
 Version: Red Hat (64-bit)
 Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86_64
 Default settings
-#### filehash:
+#### filehash: 1d1245b5d24aa28187330606b94841e646930a1c6931b272587241a3dbdd849c
 #### vm disk image name: VM1.ova
 login user: `rui`
 
@@ -153,7 +153,7 @@ sudo iptables -t nat -A POSTROUTING  -o enp0s9 -j MASQUERADE
 TODO
 
 ## SetUp VM3 - DatabaseServer 
-#### filehash:
+#### filehash: 2a3ed8ad91e80849a0a8448c726ff22e6e046b5828db8f8d1dbc872eadcde15d
 #### vm disk image name: VM3.ova
 login user: `rui`
 Type: Linux
