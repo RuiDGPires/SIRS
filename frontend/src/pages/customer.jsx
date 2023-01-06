@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
-import { listBikes, ping } from "../service/service";
+import { listBikes } from "../service/service";
 
 function Customer() {
     

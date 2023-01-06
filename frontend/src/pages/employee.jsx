@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
 import Maps from '../components/maps';
+import { listBikes } from "../service/service";
 
 function Employee() {
     
