@@ -45,12 +45,22 @@ export const listBikes = async(token) => {
     return response;
 }
 
-export const lockBike = async(token) => {
-    // TODO
+export const lockBike = async(token, bikeId) => {
+    const response = await fetch(
+        baseURL + "/bicicles/" + bikeId + "/lock?token=" + token, {
+            method: "PUT"
+        });
+    
+    return response;
 }
 
-export const unlockBike = async(token) => {
-    // TODO
+export const unlockBike = async(token, bikeId) => {
+    const response = await fetch(
+        baseURL + "/bicicles/" + bikeId + "/unlock?token=" + token, {
+            method: "PUT"
+        });
+    
+    return response;
 }
 
 export const ping = async() => {
