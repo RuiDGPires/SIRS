@@ -91,9 +91,12 @@ function Customer() {
                     cursor: 'pointer',
                     }}
                     key={index}>
-                    <ListBikes key={index} bikeID={Bikes.id} 
-                    latitude={Bikes.latitude}
-                    longitude={Bikes.longitude}
+                    <ListBikes 
+                        key={index} 
+                        bikeID={Bikes.id} 
+                        latitude={Bikes.latitude}
+                        longitude={Bikes.longitude}
+                        locked={Bikes.locked}
                     />
 
                     <Button onClick={unlockBike} variant="primary" type="submit" className="[ button ]" data-inline="true">
@@ -106,7 +109,6 @@ function Customer() {
                 );
             })}
         </div> 
-
     );
 }
 

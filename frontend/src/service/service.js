@@ -45,6 +45,14 @@ export const listBikes = async(token) => {
     return response;
 }
 
+export const lockBike = async(token) => {
+    // TODO
+}
+
+export const unlockBike = async(token) => {
+    // TODO
+}
+
 export const ping = async() => {
 	console.log(await fetch(baseURL));
 }

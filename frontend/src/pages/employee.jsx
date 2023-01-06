@@ -84,9 +84,12 @@ function Employee() {
                     cursor: 'pointer',
                     }}
                     key={index}>
-                    <ListBikes key={index} bikeID={Bikes.id} 
-                    latitude={Bikes.latitude}
-                    longitude={Bikes.longitude}
+                    <ListBikes 
+                        key={index} 
+                        bikeID={Bikes.id} 
+                        latitude={Bikes.latitude}
+                        longitude={Bikes.longitude}
+                        locked={Bikes.locked}
                     />
                     <Maps   originLat={currLocation.latitude} 
                             originLng={currLocation.longitude} 
@@ -96,7 +99,6 @@ function Employee() {
                 );
             })}
         </div> 
-
     );
 }
 
