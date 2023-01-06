@@ -2,15 +2,14 @@
 
 ## SetUp VM1 - ApplicationServer 
 Type: Linux
-Version: Red Hat (64-bit)
-Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86_64
+Distribution: CentOS-7-x86_64-Minimal-2009
 Default settings
 #### filehash: 1d1245b5d24aa28187330606b94841e646930a1c6931b272587241a3dbdd849c
 #### vm disk image name: VM1.ova
 login user: `rui`
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `server` was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
@@ -157,12 +156,11 @@ TODO
 #### vm disk image name: VM3.ova
 login user: `rui`
 Type: Linux
-Version: Red Hat (64-bit)
-Distribution: CentOS Linux 7 (Core) Kernel 3.10.0-1160.81.1.el7.x86_64 on an x86_64
+Distribution: CentOS-7-x86_64-Minimal-2009
 Default settings
 
 ##### Open terminal and pull remote repository from github
-Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag `database` was generated to prove submission before delivery time expired.
+Clone repository https://github.com/RuiDGPires/SIRS.git. Note: a tag database was generated to prove submission before delivery time expired.
 ```sh
 git clone https://github.com/RuiDGPires/SIRS.git
 ```
