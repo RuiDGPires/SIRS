@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ListBikes from '../components/listbikes';
 import Button from 'react-bootstrap/Button';
-import { listBikes } from "../service/service";
+import { listBikes, lockBikeCall, unlockBikeCall } from "../service/service";
 
 function Customer() {
     
@@ -39,9 +39,12 @@ function Customer() {
         });
       };
 
-    const unlockBike  = () => {
-        //TODO: unlock bike
-        //if success: update list of bikes and reload page
+    const unlockBike  = (bikeId) => {
+        unlockBikeCall(token, bikeId);
+    }
+
+    const lockBike = (bikeId) => {
+        lockBikeCall(token, bikeId);
     }
 
     const deleteCustomer  = () => {
@@ -52,6 +55,26 @@ function Customer() {
 
     const editCustomer  = () => {
         navigate("/edit-customer/" +  username );
+    }
+
+    function BikeAction({ locked, bikeId }) {
+        if (locked) {
+            return (
+                <Button onClick={unlockBike(bikeId)} variant="primary" type="submit" className="[ button ]" data-inline="true">
+                    <div className="buttonText">
+                        Pay and Unlock Bike
+                    </div>
+                </Button>
+            );
+        } else {
+            return (
+                <Button onClick={lockBike(bikeId)} variant="primary" type="submit" className="[ button ]" data-inline="true">
+                    <div className="buttonText">
+                        Lock Bike
+                    </div>
+                </Button>
+            );
+        }
     }
 
     return (
@@ -100,11 +123,7 @@ function Customer() {
                         locked={Bikes.locked}
                     />
 
-                    <Button onClick={unlockBike} variant="primary" type="submit" className="[ button ]" data-inline="true">
-                        <div className="buttonText">
-                            Pay and Unlock Bike
-                        </div>
-                    </Button>
+                    <BikeAction locked={Bikes.locked} bikeId={Bikes.id} />
 
                 </div>
                 );

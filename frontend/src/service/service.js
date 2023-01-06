@@ -45,7 +45,7 @@ export const listBikes = async(token) => {
     return response;
 }
 
-export const lockBike = async(token, bikeId) => {
+export const lockBikeCall = async(token, bikeId) => {
     const response = await fetch(
         baseURL + "/bicicles/" + bikeId + "/lock?token=" + token, {
             method: "PUT"
@@ -54,7 +54,7 @@ export const lockBike = async(token, bikeId) => {
     return response;
 }
 
-export const unlockBike = async(token, bikeId) => {
+export const unlockBikeCall = async(token, bikeId) => {
     const response = await fetch(
         baseURL + "/bicicles/" + bikeId + "/unlock?token=" + token, {
             method: "PUT"
